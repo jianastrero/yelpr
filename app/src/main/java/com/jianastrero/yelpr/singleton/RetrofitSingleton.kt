@@ -7,9 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RetrofitSingleton {
-
-    private val yelpApi: YelpApi = create()
+object RetrofitSingleton {
 
     private val client = OkHttpClient.Builder()
         .readTimeout(5, TimeUnit.MINUTES)
@@ -23,14 +21,13 @@ class RetrofitSingleton {
         }
         .build()
 
-    val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.yelp.com/v3")
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("https://api.yelp.com/v3/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
 
-    inline fun <reified T> create() =
-        retrofit.create(T::class.java)
+    private val yelpApi: YelpApi = retrofit.create(YelpApi::class.java)
 
     fun yelpApi() = yelpApi
 }
