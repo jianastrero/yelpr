@@ -1,10 +1,14 @@
 package com.jianastrero.yelpr.api
 
-import com.jianastrero.yelpr.models.CategoriesResult
+import com.jianastrero.yelpr.models.SearchResult
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface YelpApi {
 
-    @GET("categories")
-    suspend fun categories(): CategoriesResult
+    @GET("businesses/search")
+    suspend fun search(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double
+    ): SearchResult
 }
