@@ -17,6 +17,8 @@ import com.jianastrero.yelpr.extensions.dp
 import com.jianastrero.yelpr.extensions.sp
 import java.lang.Exception
 
+// TODO: ellipsize, maxlines, multiline
+
 class BetterTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
