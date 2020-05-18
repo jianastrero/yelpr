@@ -1,6 +1,6 @@
 package com.jianastrero.yelpr.api
 
-import com.jianastrero.yelpr.models.SearchResult
+import com.jianastrero.yelpr.model.SearchResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 

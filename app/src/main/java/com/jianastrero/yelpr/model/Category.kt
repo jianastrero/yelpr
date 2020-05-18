@@ -1,4 +1,4 @@
-package com.jianastrero.yelpr.models
+package com.jianastrero.yelpr.model
 
 data class Category(
     var alias: String,

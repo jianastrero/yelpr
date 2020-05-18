@@ -1,4 +1,4 @@
-package com.jianastrero.yelpr.activities
+package com.jianastrero.yelpr.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

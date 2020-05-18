@@ -2,7 +2,6 @@ package com.jianastrero.yelpr.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.jianastrero.yelpr.models.SearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

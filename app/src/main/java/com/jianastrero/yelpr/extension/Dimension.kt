@@ -1,4 +1,4 @@
-package com.jianastrero.yelpr.extensions
+package com.jianastrero.yelpr.extension
 
 import android.content.res.Resources
 import android.util.TypedValue

@@ -1,4 +1,4 @@
-package com.jianastrero.yelpr.models
+package com.jianastrero.yelpr.model
 
 import com.google.gson.annotations.SerializedName
 
