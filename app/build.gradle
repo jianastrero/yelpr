@@ -19,13 +19,22 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'YELP_TOKEN', "\"28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
+        }
+        debug {
+            buildConfigField 'String', 'YELP_TOKEN', "\"28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
         }
     }
 
     dataBinding {
         enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
