@@ -1,0 +1,2 @@
+rootProject.name='Yelpr'
+include ':app'
