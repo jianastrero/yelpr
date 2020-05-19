@@ -25,5 +25,5 @@ interface BusinessDao : BaseDao<Business> {
         LIMIT 1
     """
     )
-    override fun get(id: Int): Flow<Business>
+    override fun get(id: Int): Flow<Business?>
 }

@@ -3,7 +3,6 @@ package com.jianastrero.yelpr.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.jianastrero.yelpr.dao.base.BaseDao
-import com.jianastrero.yelpr.model.Business
 import com.jianastrero.yelpr.model.SearchResult
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +12,7 @@ interface SearchResultDao : BaseDao<SearchResult> {
     @Query(
         """
         SELECT * FROM search_results
-        ORDER BY id asc
+        ORDER BY localId asc
     """
     )
     override fun get(): Flow<List<SearchResult>>
@@ -21,10 +20,20 @@ interface SearchResultDao : BaseDao<SearchResult> {
     @Query(
         """
         SELECT * FROM search_results
-        WHERE id = :id
-        ORDER BY id asc
+        WHERE localId = :id
+        ORDER BY localId asc
         LIMIT 1
     """
     )
-    override fun get(id: Int): Flow<SearchResult>
+    override fun get(id: Int): Flow<SearchResult?>
+
+    @Query(
+        """
+        SELECT * FROM search_results
+        WHERE latitude = :latitude AND longitude = :longitude AND term = :term
+        ORDER BY localId asc
+        LIMIT 1
+    """
+    )
+    suspend fun get(latitude: Double, longitude: Double, term: String): SearchResult?
 }

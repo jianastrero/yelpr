@@ -2,11 +2,24 @@ package com.jianastrero.yelpr.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(
-    tableName = "businesses"
+    tableName = "businesses",
+    foreignKeys = [
+        ForeignKey(
+            entity = SearchResult::class,
+            childColumns = ["searchResultId"],
+            parentColumns = ["localId"]
+        )
+    ],
+    indices = [
+        Index("id", unique = true),
+        Index("searchResultId")
+    ]
 )
 data class Business @JvmOverloads constructor(
     var alias: String,
@@ -14,6 +27,7 @@ data class Business @JvmOverloads constructor(
     @Embedded(prefix = "coordinates")
     var coordinates: Coordinates,
     var distance: Double,
+    @PrimaryKey
     var id: String,
     @SerializedName("image_url")
     var imageUrl: String,
@@ -29,7 +43,5 @@ data class Business @JvmOverloads constructor(
     var reviewCount: Int,
     var transactions: List<String>,
     var url: String,
-    @PrimaryKey(autoGenerate = true)
-    var localId: Int = 0,
     var searchResultId: Int = 0
 )

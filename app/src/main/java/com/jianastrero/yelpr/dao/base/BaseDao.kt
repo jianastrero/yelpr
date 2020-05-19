@@ -2,6 +2,7 @@ package com.jianastrero.yelpr.dao.base
 
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -12,9 +13,9 @@ interface BaseDao<MODEL> {
 
     fun get(): Flow<List<MODEL>>
 
-    fun get(id: Int): Flow<MODEL>
+    fun get(id: Int): Flow<MODEL?>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg items: MODEL)
 
     @Update
