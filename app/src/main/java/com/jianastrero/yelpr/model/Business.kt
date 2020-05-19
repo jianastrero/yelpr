@@ -1,10 +1,16 @@
 package com.jianastrero.yelpr.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-data class Businesse(
+@Entity(
+    tableName = "businesses"
+)
+data class Business(
     var alias: String,
     var categories: List<Category>,
+    @Embedded(prefix = "coordinates")
     var coordinates: Coordinates,
     var distance: Double,
     var id: String,
@@ -12,6 +18,7 @@ data class Businesse(
     var imageUrl: String,
     @SerializedName("is_closed")
     var isClosed: Boolean,
+    @Embedded(prefix = "location_")
     var location: Location,
     var name: String,
     var phone: String,
