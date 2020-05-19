@@ -89,6 +89,8 @@ class MainActivity : AppCompatActivity() {
                 if (it != null) {
                     viewModel.latitude = it.latitude
                     viewModel.longitude = it.longitude
+
+                    viewModel.search()
                 }
             }
     }

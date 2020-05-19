@@ -6,7 +6,7 @@ import com.jianastrero.yelpr.dao.base.BaseDao
 
 open class CrudRepository<MODEL, DAO : BaseDao<MODEL>>(protected val dao: DAO) {
 
-    open suspend fun delete(vararg items: MODEL) = dao.delete(*items)
+    open suspend fun delete(vararg items: MODEL): Unit = dao.delete(*items)
 
     open fun get(): LiveData<List<MODEL>> =
         dao.get()
@@ -16,7 +16,7 @@ open class CrudRepository<MODEL, DAO : BaseDao<MODEL>>(protected val dao: DAO) {
         dao.get(id)
             .asLiveData()
 
-    open suspend fun insert(vararg items: MODEL) = dao.insert(*items)
+    open suspend fun insert(vararg items: MODEL): List<Long> = dao.insert(*items)
 
-    open suspend fun update(vararg items: MODEL) = dao.update(*items)
+    open suspend fun update(vararg items: MODEL): Unit = dao.update(*items)
 }

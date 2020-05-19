@@ -9,4 +9,5 @@
     <color name="black">#000000</color>
     <color name="gray">#bfbfbf</color>
     <color name="amber">#ffbf00</color>
+    <color name="red">#D32F2F</color>
 </resources>

@@ -3,6 +3,7 @@ package com.jianastrero.yelpr.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -13,7 +14,9 @@ import com.google.gson.annotations.SerializedName
         ForeignKey(
             entity = SearchResult::class,
             childColumns = ["searchResultId"],
-            parentColumns = ["localId"]
+            parentColumns = ["localId"],
+            onUpdate = CASCADE,
+            onDelete = CASCADE
         )
     ],
     indices = [
@@ -38,7 +41,7 @@ data class Business @JvmOverloads constructor(
     var name: String,
     var phone: String,
     var price: String,
-    var rating: Int,
+    var rating: Double,
     @SerializedName("review_count")
     var reviewCount: Int,
     var transactions: List<String>,

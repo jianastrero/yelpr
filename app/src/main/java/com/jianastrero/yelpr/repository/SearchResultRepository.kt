@@ -24,15 +24,20 @@ class SearchResultRepository private constructor() :
 
     private val businessRepository = BusinessRepository.getInstance()
 
-    override suspend fun insert(vararg items: SearchResult) {
-        super.insert(*items)
+    override suspend fun insert(vararg items: SearchResult): List<Long> {
+        items.forEach {
+            dao.delete(it.latitude ?: 0.0, it.longitude ?: 0.0, it.term ?: "")
+        }
+        val ids = super.insert(*items)
 
-        items.forEach { item ->
+        items.forEachIndexed { i, item ->
             item.businesses.forEach {
-                it.searchResultId = item.localId
+                it.searchResultId = ids[i].toInt()
             }
             businessRepository.insert(*item.businesses.toTypedArray())
         }
+
+        return ids
     }
 
     suspend fun get(latitude: Double, longitude: Double, term: String): SearchResult? =

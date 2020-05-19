@@ -12,6 +12,17 @@
         <item name="materialCardViewStyle">@style/AppTheme.MaterialCardView</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorPrimaryDark">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorSecondary</item>
+
+        <item name="fontFamily">@font/nunito_bold</item>
+
+        <item name="materialCardViewStyle">@style/AppTheme.MaterialCardView</item>
+    </style>
+
     <style name="AppTheme.MaterialCardView" parent="Widget.MaterialComponents.CardView">
 
         <item name="cardCornerRadius">32dp</item>

@@ -16,7 +16,7 @@ interface BaseDao<MODEL> {
     fun get(id: Int): Flow<MODEL?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg items: MODEL)
+    suspend fun insert(vararg items: MODEL): List<Long>
 
     @Update
     suspend fun update(vararg items: MODEL)

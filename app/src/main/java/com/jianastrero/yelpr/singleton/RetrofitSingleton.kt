@@ -6,6 +6,7 @@ import com.jianastrero.yelpr.BuildConfig
 import com.jianastrero.yelpr.api.YelpApi
 import com.jianastrero.yelpr.singleton.RetrofitSingleton.gson
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -18,10 +19,11 @@ object RetrofitSingleton {
             it.proceed(
                 it.request()
                     .newBuilder()
-                    .header("Authorization", "Bearer ${BuildConfig.YELP_TOKEN}")
+                    .header("Authorization", BuildConfig.YELP_TOKEN)
                     .build()
             )
         }
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
     val gson: Gson = GsonBuilder()

@@ -21,10 +21,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'YELP_TOKEN', "\"28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
+            buildConfigField 'String', 'YELP_TOKEN', "\"Bearer 28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
         }
         debug {
-            buildConfigField 'String', 'YELP_TOKEN', "\"28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
+            buildConfigField 'String', 'YELP_TOKEN', "\"Bearer 28TJ6SFHFCjANnabHsSptucgXSEC7YzOooZ7MHYdkYoIhVCLV9f2MBs18r8pyWjepN8E2unVNs9bArthGCh4HFxwpDCARVUf1YGnRp4PUDqo2KKS8V4PVjM6OpDCXnYx\""
         }
     }
 
@@ -35,6 +35,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
@@ -50,6 +54,9 @@ dependencies {
     // Kotlin coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutines"
+
+    // Ok Http
+    implementation "com.squareup.okhttp3:logging-interceptor:4.7.1"
 
     // Gson
     implementation "com.google.code.gson:gson:$gson"

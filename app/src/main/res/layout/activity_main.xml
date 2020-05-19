@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:jianastrero="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jianastrero.yelpr.viewmodel.MainViewModel" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorSecondary"
         tools:context=".activity.MainActivity">
+
+        <TextView
+            android:id="@+id/tvYelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/yelp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/r"
+            android:textColor="@color/amber"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvYelp"
+            app:layout_constraintStart_toEndOf="@+id/tvYelp"
+            app:layout_constraintTop_toTopOf="@+id/tvYelp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/backdrop"
+            android:elevation="16dp"
+            app:layout_constraintBottom_toTopOf="@id/tvInternetStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvR">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvInternetStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:fontFamily="@font/nunito_black"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/no_internet_connection"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            jianastrero:visible="@{ !viewModel.hasInternetConnection }" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

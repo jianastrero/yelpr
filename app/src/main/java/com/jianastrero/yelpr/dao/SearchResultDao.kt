@@ -36,4 +36,12 @@ interface SearchResultDao : BaseDao<SearchResult> {
     """
     )
     suspend fun get(latitude: Double, longitude: Double, term: String): SearchResult?
+
+    @Query(
+        """
+        DELETE FROM search_results
+        WHERE latitude = :latitude AND longitude = :longitude AND term = :term
+    """
+    )
+    suspend fun delete(latitude: Double, longitude: Double, term: String)
 }

@@ -1,6 +1,6 @@
 package com.jianastrero.yelpr.enumeration
 
-enum class API {
+enum class ResponseCode {
     NO_INTERNET_CONNECTION,
     OK,
     NOT_FOUND,
