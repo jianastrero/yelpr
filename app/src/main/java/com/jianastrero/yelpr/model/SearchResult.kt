@@ -14,11 +14,14 @@ import androidx.room.PrimaryKey
 data class SearchResult @JvmOverloads constructor(
     @Ignore
     var businesses: List<Business>,
-    @PrimaryKey(autoGenerate = true)
-    var localId: Int,
-    var region: Region,
+    var region: Region?,
     var total: Int,
+    @PrimaryKey(autoGenerate = true)
+    var localId: Int = 0,
     var term: String? = null,
     var latitude: Double? = null,
     var longitude: Double? = null
-)
+) {
+
+    constructor() : this(listOf(), null, 0)
+}
