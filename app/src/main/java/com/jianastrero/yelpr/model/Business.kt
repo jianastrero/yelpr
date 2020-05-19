@@ -2,12 +2,13 @@ package com.jianastrero.yelpr.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(
     tableName = "businesses"
 )
-data class Business(
+data class Business @JvmOverloads constructor(
     var alias: String,
     var categories: List<Category>,
     @Embedded(prefix = "coordinates")
@@ -27,5 +28,8 @@ data class Business(
     @SerializedName("review_count")
     var reviewCount: Int,
     var transactions: List<String>,
-    var url: String
+    var url: String,
+    @PrimaryKey(autoGenerate = true)
+    var localId: Int = 0,
+    var searchResultId: Int = 0
 )

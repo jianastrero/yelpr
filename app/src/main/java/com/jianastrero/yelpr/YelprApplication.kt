@@ -8,6 +8,7 @@ class YelprApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        YelprDatabase.init(this)
         YelprViewModelFactory.init(this)
     }
 }

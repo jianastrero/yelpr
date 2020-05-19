@@ -4,7 +4,7 @@ import com.jianastrero.yelpr.model.Category
 import com.jianastrero.yelpr.singleton.fromJson
 import com.jianastrero.yelpr.singleton.toJson
 
-object YelpTypeConverters {
+object YelprTypeConverters {
 
     fun toCategories(json: String): List<Category> = json.fromJson()
 

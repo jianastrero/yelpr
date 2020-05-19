@@ -3,19 +3,20 @@ package com.jianastrero.yelpr.dao.base
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 interface BaseDao<MODEL> {
 
     @Delete
-    fun delete(vararg items: MODEL)
+    suspend fun delete(vararg items: MODEL)
 
-    fun get()
+    fun get(): Flow<List<MODEL>>
 
-    fun get(id: Int)
+    fun get(id: Int): Flow<MODEL>
 
     @Insert
-    fun insert(vararg items: MODEL)
+    suspend fun insert(vararg items: MODEL)
 
     @Update
-    fun update(vararg items: MODEL)
+    suspend fun update(vararg items: MODEL)
 }
