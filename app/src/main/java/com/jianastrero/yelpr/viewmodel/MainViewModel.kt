@@ -10,6 +10,7 @@ import com.jianastrero.yelpr.repository.YelpRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     application: Application,
@@ -34,13 +35,17 @@ class MainViewModel(
 
         searchResult = result
 
-        when (code) {
-            ResponseCode.NO_INTERNET_CONNECTION -> {
-                hasInternetConnection.set(false)
-            }
-            else -> {
-                hasInternetConnection.set(true)
-            }
+        withContext(Dispatchers.Main) {
+            hasInternetConnection.set(
+                when (code) {
+                    ResponseCode.NO_INTERNET_CONNECTION -> {
+                        false
+                    }
+                    else -> {
+                        true
+                    }
+                }
+            )
         }
     }
 }

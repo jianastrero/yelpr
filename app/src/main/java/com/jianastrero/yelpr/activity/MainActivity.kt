@@ -4,11 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.REQUEST_PERMISSION_LOCATION
+import com.jianastrero.yelpr.databinding.ActivityMainBinding
 import com.jianastrero.yelpr.dialog.askConfirmation
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.viewmodel.MainViewModel
@@ -20,6 +23,7 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -30,10 +34,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         viewModel = ViewModelProvider(this, YelprViewModelFactory.getInstance())
             .get(MainViewModel::class.java)
+
+        binding.viewModel = viewModel
+
+        viewModel.hasInternetConnection.addOnPropertyChangedCallback(
+            object : Observable.OnPropertyChangedCallback() {
+                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                    "hasInternetConnection: ${viewModel.hasInternetConnection.get()}".log()
+                }
+            }
+        )
 
         if (locationPermissions.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }) {
             getLatestLocation()
