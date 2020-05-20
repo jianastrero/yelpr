@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jianastrero.yelpr.extension.log
 
-class BaseFragment : Fragment() {
+open class BaseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         "${this::class} -> onActivityCreated".log()

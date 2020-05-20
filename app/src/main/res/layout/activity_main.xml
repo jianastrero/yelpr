@@ -47,10 +47,19 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/backdrop"
             android:elevation="16dp"
+            android:paddingTop="32dp"
             app:layout_constraintBottom_toTopOf="@id/tvInternetStatus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvR">
+
+            <fragment
+                android:id="@+id/my_nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/main" />
 
         </LinearLayout>
 
