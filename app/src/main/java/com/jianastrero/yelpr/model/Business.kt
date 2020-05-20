@@ -33,7 +33,7 @@ data class Business @JvmOverloads constructor(
     @PrimaryKey
     var id: String,
     @SerializedName("image_url")
-    var imageUrl: String,
+    var imageUrl: String?,
     @SerializedName("is_closed")
     var isClosed: Boolean,
     @Embedded(prefix = "location_")

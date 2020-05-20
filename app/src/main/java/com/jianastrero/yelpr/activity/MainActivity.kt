@@ -41,14 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
 
-        viewModel.hasInternetConnection.addOnPropertyChangedCallback(
-            object : Observable.OnPropertyChangedCallback() {
-                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                    "hasInternetConnection: ${viewModel.hasInternetConnection.get()}".log()
-                }
-            }
-        )
-
         if (locationPermissions.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }) {
             getLatestLocation()
         } else {

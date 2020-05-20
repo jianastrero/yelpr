@@ -35,7 +35,17 @@ interface SearchResultDao : BaseDao<SearchResult> {
         LIMIT 1
     """
     )
-    suspend fun get(latitude: Double, longitude: Double, term: String): SearchResult?
+    fun get(latitude: Double, longitude: Double, term: String): Flow<SearchResult?>
+
+    @Query(
+        """
+        SELECT * FROM search_results
+        WHERE latitude = :latitude AND longitude = :longitude AND term = :term
+        ORDER BY localId asc
+        LIMIT 1
+    """
+    )
+    suspend fun getSuspended(latitude: Double, longitude: Double, term: String): SearchResult?
 
     @Query(
         """

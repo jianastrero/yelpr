@@ -7,7 +7,10 @@
     <color name="colorSecondary">#6E48AA</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="gray">#bfbfbf</color>
+    <color name="gray">#888888</color>
+    <color name="grayLight">#bfbfbf</color>
     <color name="amber">#ffbf00</color>
     <color name="red">#D32F2F</color>
+    <color name="transparentWhite">#00FFFFFF</color>
+    <color name="transparentBlack">#00000000</color>
 </resources>

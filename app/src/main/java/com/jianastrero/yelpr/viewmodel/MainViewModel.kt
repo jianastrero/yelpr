@@ -2,10 +2,15 @@ package com.jianastrero.yelpr.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataScope
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.jianastrero.yelpr.binding.NonNullObservableField
 import com.jianastrero.yelpr.enumeration.ResponseCode
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.model.SearchResult
+import com.jianastrero.yelpr.repository.SearchResultRepository
 import com.jianastrero.yelpr.repository.YelpRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,14 +19,17 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(
     application: Application,
+    private val searchResultRepository: SearchResultRepository,
     private val yelpRepository: YelpRepository
 ) : AndroidViewModel(application) {
 
     var hasInternetConnection = NonNullObservableField(true)
     var latitude = 0.0
     var longitude = 0.0
-    var searchResult: SearchResult? = null
     var searchTerm = NonNullObservableField("")
+    var isListView = NonNullObservableField(true)
+
+    val searchResultLiveData: MutableLiveData<SearchResult?> = MutableLiveData()
 
     fun search() = CoroutineScope(Dispatchers.IO).launch {
         val (code, result) = yelpRepository.search(
@@ -33,7 +41,9 @@ class MainViewModel(
         "code: $code".log()
         "result: ${result?.total}".log()
 
-        searchResult = result
+        withContext(Dispatchers.Main) {
+            searchResultLiveData.value = result
+        }
 
         withContext(Dispatchers.Main) {
             hasInternetConnection.set(
@@ -47,5 +57,9 @@ class MainViewModel(
                 }
             )
         }
+    }
+
+    fun toggleView() {
+        isListView.set(!isListView.get())
     }
 }

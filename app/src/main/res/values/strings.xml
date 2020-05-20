@@ -4,4 +4,6 @@
     <string name="r">r</string>
     <string name="created_by">created by\nJian James P. Astrero</string>
     <string name="no_internet_connection">No Internet Connection</string>
+    <string name="search_result">Search Result</string>
+    <string name="there_are_no_result_s_for_your_search">There are no result\'s for your search</string>
 </resources>

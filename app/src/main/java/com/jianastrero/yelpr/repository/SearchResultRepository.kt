@@ -1,5 +1,7 @@
 package com.jianastrero.yelpr.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.jianastrero.yelpr.YelprDatabase
 import com.jianastrero.yelpr.dao.SearchResultDao
 import com.jianastrero.yelpr.model.SearchResult
@@ -40,6 +42,10 @@ class SearchResultRepository private constructor() :
         return ids
     }
 
-    suspend fun get(latitude: Double, longitude: Double, term: String): SearchResult? =
+    fun get(latitude: Double, longitude: Double, term: String): LiveData<SearchResult?> =
         dao.get(latitude, longitude, term)
+            .asLiveData()
+
+    suspend fun getSuspended(latitude: Double, longitude: Double, term: String): SearchResult? =
+        dao.getSuspended(latitude, longitude, term)
 }

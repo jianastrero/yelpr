@@ -41,13 +41,28 @@
             app:layout_constraintStart_toEndOf="@+id/tvYelp"
             app:layout_constraintTop_toTopOf="@+id/tvYelp" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{ () -> viewModel.toggleView() }"
+            android:padding="8dp"
+            android:src="@{ viewModel.isListView ? @drawable/ic_list : @drawable/ic_grid }"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/tvR"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvR"
+            tools:src="@drawable/ic_list" />
+
         <LinearLayout
+            android:id="@+id/llNavHostHolder"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/backdrop"
+            android:background="@color/white"
             android:elevation="16dp"
-            android:paddingTop="32dp"
             app:layout_constraintBottom_toTopOf="@id/tvInternetStatus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +77,15 @@
                 app:navGraph="@navigation/main" />
 
         </LinearLayout>
+
+        <com.jianastrero.yelpr.view.BackdropForeground
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="17dp"
+            app:layout_constraintBottom_toBottomOf="@id/llNavHostHolder"
+            app:layout_constraintEnd_toEndOf="@id/llNavHostHolder"
+            app:layout_constraintStart_toStartOf="@id/llNavHostHolder"
+            app:layout_constraintTop_toTopOf="@id/llNavHostHolder" />
 
         <TextView
             android:id="@+id/tvInternetStatus"

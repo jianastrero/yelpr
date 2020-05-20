@@ -71,5 +71,5 @@ class YelpRepository {
         longitude: Double,
         term: String = ""
     ): SearchResult? =
-        searchResultRepository.get(latitude, longitude, term)
+        searchResultRepository.getSuspended(latitude, longitude, term)
 }
