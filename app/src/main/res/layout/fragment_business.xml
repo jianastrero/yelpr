@@ -132,6 +132,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:text="@{ NumberKt.getTwoDecimal(viewModel.businessFull.rating) + ` stars (` + viewModel.businessFull.reviewCount + `)` }"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -141,6 +142,57 @@
             app:layout_constraintTop_toTopOf="@id/ivStar"
             jianastrero:visible="@{ status == 2 }"
             tools:text="4.3 stars (2000)" />
+
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_location"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintStart_toStartOf="@id/ivStar"
+            app:layout_constraintTop_toBottomOf="@id/ivStar"
+            jianastrero:visible="@{ status == 2 }" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{ viewModel.businessFull.location.toString() }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivLocation"
+            app:layout_constraintTop_toTopOf="@id/ivLocation"
+            jianastrero:visible="@{ status == 2 }"
+            tools:text="1, Purok 5, Victoria, San Mateo, Isabela" />
+
+        <ImageView
+            android:id="@+id/ivTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_time"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintStart_toStartOf="@id/ivLocation"
+            app:layout_constraintTop_toBottomOf="@id/tvLocation"
+            jianastrero:visible="@{ status == 2 }" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{ viewModel.businessFull.schedule() }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivTime"
+            app:layout_constraintTop_toTopOf="@id/ivTime"
+            jianastrero:visible="@{ status == 2 }"
+            tools:text="@tools:sample/date/hhmm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

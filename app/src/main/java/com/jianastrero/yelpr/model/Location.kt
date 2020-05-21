@@ -15,4 +15,14 @@ data class Location(
     var state: String,
     @SerializedName("zip_code")
     var zipCode: String?
-)
+) {
+
+    override fun toString(): String {
+        return displayAddress?.let {
+            it.joinToString() + ", $zipCode"
+        } ?: address1 +
+        if (address2 == null) "" else ", $address2" +
+            if (address3 == null) "" else ", $address3" +
+                ", $city, $country, $zipCode"
+    }
+}
