@@ -47,4 +47,7 @@ data class Business @JvmOverloads constructor(
     var transactions: List<String>,
     var url: String,
     var searchResultId: Int = 0
-)
+) {
+
+    fun categoriesString() = categories.joinToString { it.title }
+}

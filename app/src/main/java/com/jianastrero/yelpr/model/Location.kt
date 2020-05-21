@@ -8,7 +8,11 @@ data class Location(
     var address3: String?,
     var city: String,
     var country: String,
+    @SerializedName("cross_streets")
+    var crossStreets: String?,
+    @SerializedName("display_address")
+    var displayAddress: List<String>?,
     var state: String,
     @SerializedName("zip_code")
-    var zipCode: String?
+    var zipCode: String
 )

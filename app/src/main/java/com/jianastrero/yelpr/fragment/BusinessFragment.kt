@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.databinding.FragmentBusinessBinding
-import com.jianastrero.yelpr.databinding.FragmentSearchResultBinding
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
@@ -38,6 +38,19 @@ class BusinessFragment : BaseFragment() {
                     .get(MainViewModel::class.java)
             } ?: ViewModelProvider(this, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
+
+        viewModel.businessLiveData.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it != null) {
+                    binding.item = it
+                }
+            }
+        )
+
+        binding.setOnBackClickedListener {
+            activity?.onBackPressed()
+        }
 
         return binding.root
     }

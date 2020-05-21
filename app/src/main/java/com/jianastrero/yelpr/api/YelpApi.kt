@@ -1,8 +1,10 @@
 package com.jianastrero.yelpr.api
 
+import com.jianastrero.yelpr.model.BusinessFull
 import com.jianastrero.yelpr.model.SearchResult
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface YelpApi {
@@ -19,4 +21,9 @@ interface YelpApi {
         @Query("longitude") longitude: Double,
         @Query("term") term: String
     ): Response<SearchResult>
+
+    @GET("businesses/{id}")
+    suspend fun get(
+        @Path("id") id: String
+    ): Response<BusinessFull>
 }

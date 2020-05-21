@@ -7,15 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.jianastrero.yelpr.converter.YelprTypeConverters
 import com.jianastrero.yelpr.dao.BusinessDao
+import com.jianastrero.yelpr.dao.BusinessFullDao
 import com.jianastrero.yelpr.dao.SearchResultDao
 import com.jianastrero.yelpr.model.Business
+import com.jianastrero.yelpr.model.BusinessFull
 import com.jianastrero.yelpr.model.SearchResult
 
 @Database(
     version = 1,
     entities = [
         Business::class,
-        SearchResult::class
+        SearchResult::class,
+        BusinessFull::class
     ]
 )
 @TypeConverters(YelprTypeConverters::class)
@@ -43,4 +46,5 @@ abstract class YelprDatabase : RoomDatabase() {
 
     abstract fun businessDao(): BusinessDao
     abstract fun searchResultDao(): SearchResultDao
+    abstract fun businessFullDao(): BusinessFullDao
 }
