@@ -27,7 +27,7 @@ class SearchResultFragment : BaseFragment() {
         object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 layoutManager.spanCount = if (viewModel.isListView.get()) 1 else 2
-                adapter.notifyDataSetChanged()
+                adapter.isListView = viewModel.isListView.get()
             }
         }
 
@@ -49,6 +49,8 @@ class SearchResultFragment : BaseFragment() {
             )
         }
 
+        binding.status = 0
+
         viewModel =
             activity?.let {
                 ViewModelProvider(it, YelprViewModelFactory.getInstance())
@@ -67,6 +69,7 @@ class SearchResultFragment : BaseFragment() {
             Observer {
                 if (it != null) {
                     adapter.submitList(it.businesses)
+                    binding.status = if (it.businesses.isEmpty()) 1 else 2
                 }
             }
         )

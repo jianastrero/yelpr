@@ -10,6 +10,9 @@ import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.databinding.ItemBusinessBinding
 import com.jianastrero.yelpr.extension.into
 import com.jianastrero.yelpr.model.Business
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BusinessAdapter : ListAdapter<Business, BusinessAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<Business>() {
@@ -20,6 +23,14 @@ class BusinessAdapter : ListAdapter<Business, BusinessAdapter.ViewHolder>(
             oldItem == newItem
     }
 ) {
+
+    var isListView = true
+        set(value) {
+            field = value
+            CoroutineScope(Dispatchers.Main).launch {
+                notifyDataSetChanged()
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -34,8 +45,13 @@ class BusinessAdapter : ListAdapter<Business, BusinessAdapter.ViewHolder>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = currentList[holder.adapterPosition]
 
+        holder.binding.root.clipToOutline = false
+        (holder.binding.root as ViewGroup).let {
+            it.clipChildren = false
+            it.clipToPadding = false
+        }
         holder.binding.item = item
-        holder.binding.isGrid = false
+        holder.binding.isListView = isListView
 
         item.imageUrl.into(holder.binding.imageView)
     }

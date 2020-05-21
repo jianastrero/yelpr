@@ -1,157 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:jianastrero="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.jianastrero.yelpr.extension.NumberKt" />
 
         <variable
             name="item"
             type="com.jianastrero.yelpr.model.Business" />
 
         <variable
-            name="isGrid"
+            name="isListView"
             type="Boolean" />
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:clipChildren="true"
-        android:clipToPadding="true"
-        android:orientation="vertical"
-        app:cardBackgroundColor="@color/white">
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="8dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="12dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:clipChildren="true"
+            android:clipToPadding="true"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/ivStar2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="220dp"
-                android:contentDescription="@null"
-                android:scaleType="centerInside"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@raw/jollibee" />
-
-            <ImageView
-                android:id="@+id/fade"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_gravity="bottom"
-                android:src="@drawable/gradient_fade_to_white"
-                app:layout_constraintBottom_toBottomOf="@id/imageView"
-                app:layout_constraintEnd_toEndOf="@id/imageView"
-                app:layout_constraintStart_toStartOf="@id/imageView" />
-
-            <ImageView
-                android:id="@+id/ivStar"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_star"
-                android:tint="@color/amber"
-                app:layout_constraintBottom_toTopOf="@id/ivLocation"
-                app:layout_constraintStart_toStartOf="@id/imageView" />
-
-            <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@{ item.rating + ` stars` }"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/ivStar"
-                app:layout_constraintStart_toEndOf="@id/ivStar"
-                app:layout_constraintTop_toTopOf="@id/ivStar"
-                tools:text="4.3 stars" />
+                android:orientation="vertical"
+                android:paddingBottom="16dp">
 
-            <ImageView
-                android:id="@+id/ivDistance"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="32dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_road"
-                android:tint="@color/colorSecondary"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRating"
-                app:layout_constraintStart_toEndOf="@id/tvRating"
-                app:layout_constraintTop_toTopOf="@+id/tvRating" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="220dp"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@raw/jollibee" />
 
-            <TextView
-                android:id="@+id/tvDustance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@{ item.distance + ` meters` }"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivDistance"
-                app:layout_constraintStart_toEndOf="@id/ivDistance"
-                app:layout_constraintTop_toTopOf="@+id/ivDistance"
-                tools:text="5000 meters" />
+                <ImageView
+                    android:id="@+id/fade"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/gradient_fade_to_white"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView"
+                    app:layout_constraintEnd_toEndOf="@id/imageView"
+                    app:layout_constraintStart_toStartOf="@id/imageView" />
 
-            <ImageView
-                android:id="@+id/ivLocation"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_location"
-                android:tint="@color/colorSecondary"
-                app:layout_constraintBottom_toBottomOf="@id/imageView"
-                app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/ivStar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/amber"
+                    app:layout_constraintBottom_toTopOf="@id/ivLocation"
+                    app:layout_constraintStart_toStartOf="@id/imageView"
+                    jianastrero:visible="@{ isListView }" />
 
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@{ item.location.address1 + `, ` + item.location.city + `, ` + item.location.state }"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/ivLocation"
-                app:layout_constraintStart_toEndOf="@id/ivLocation"
-                app:layout_constraintTop_toTopOf="@id/ivLocation"
-                tools:text="1, Purok 5, Victoria, San Mateo, Isabela" />
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{ item.rating + ` stars` }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivStar"
+                    app:layout_constraintStart_toEndOf="@id/ivStar"
+                    app:layout_constraintTop_toTopOf="@id/ivStar"
+                    jianastrero:visible="@{ isListView }"
+                    tools:text="4.3 stars" />
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/nunito_black"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@{ item.name }"
-                android:textColor="@color/black"
-                android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="@id/imageView"
-                app:layout_constraintStart_toStartOf="@id/imageView"
-                app:layout_constraintTop_toBottomOf="@id/imageView"
-                tools:text="Jollibee" />
+                <ImageView
+                    android:id="@+id/ivDistance"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="32dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_road"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintBottom_toBottomOf="@id/tvRating"
+                    app:layout_constraintStart_toEndOf="@id/tvRating"
+                    app:layout_constraintTop_toTopOf="@id/tvRating"
+                    jianastrero:visible="@{ isListView }" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{ NumberKt.getMeters(item.distance) }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivDistance"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivDistance"
+                    app:layout_constraintTop_toTopOf="@id/ivDistance"
+                    jianastrero:visible="@{ isListView }"
+                    tools:text="5000 meters" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:id="@+id/ivLocation"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    jianastrero:visible="@{ isListView }" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{ item.location.address1 + `, ` + item.location.city + `, ` + item.location.state }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivLocation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivLocation"
+                    app:layout_constraintTop_toTopOf="@id/ivLocation"
+                    jianastrero:visible="@{ isListView }"
+                    tools:text="1, Purok 5, Victoria, San Mateo, Isabela" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_black"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{ item.name }"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@id/imageView"
+                    app:layout_constraintStart_toStartOf="@id/imageView"
+                    app:layout_constraintTop_toBottomOf="@id/imageView"
+                    tools:text="Jollibee" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/ivStar2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_star"
+            android:tint="@color/amber"
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@id/cardView"
+            jianastrero:visible="@{ !isListView }" />
+
+        <TextView
+            android:id="@+id/tvRating2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{ item.rating + ` stars` }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivStar2"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toEndOf="@id/ivStar2"
+            app:layout_constraintTop_toTopOf="@id/ivStar2"
+            jianastrero:visible="@{ !isListView }"
+            tools:text="4.3 stars" />
+
+        <ImageView
+            android:id="@+id/ivDistance2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_road"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintEnd_toEndOf="@id/ivStar2"
+            app:layout_constraintStart_toStartOf="@id/ivStar2"
+            app:layout_constraintTop_toBottomOf="@id/ivStar2"
+            jianastrero:visible="@{ !isListView }" />
+
+        <TextView
+            android:id="@+id/tvDistance2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="@{ NumberKt.getMeters(item.distance) }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivDistance2"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toEndOf="@id/ivDistance2"
+            app:layout_constraintTop_toTopOf="@id/ivDistance2"
+            jianastrero:visible="@{ !isListView }"
+            tools:text="5000 meters" />
+
+        <ImageView
+            android:id="@+id/ivLocation2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_location"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintEnd_toEndOf="@id/ivDistance2"
+            app:layout_constraintStart_toStartOf="@id/ivDistance2"
+            app:layout_constraintTop_toBottomOf="@id/ivDistance2"
+            jianastrero:visible="@{ !isListView }" />
+
+        <TextView
+            android:id="@+id/tvLocation2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="@{ item.location.address1 + `, ` + item.location.city + `, ` + item.location.state }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivLocation2"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toEndOf="@id/ivLocation2"
+            app:layout_constraintTop_toTopOf="@id/ivLocation2"
+            jianastrero:visible="@{ !isListView }"
+            tools:text="1, Purok 5, Victoria, San Mateo, Isabela" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
