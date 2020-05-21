@@ -9,6 +9,7 @@ import androidx.lifecycle.liveData
 import com.jianastrero.yelpr.binding.NonNullObservableField
 import com.jianastrero.yelpr.enumeration.ResponseCode
 import com.jianastrero.yelpr.extension.log
+import com.jianastrero.yelpr.model.Business
 import com.jianastrero.yelpr.model.SearchResult
 import com.jianastrero.yelpr.repository.SearchResultRepository
 import com.jianastrero.yelpr.repository.YelpRepository
@@ -30,6 +31,7 @@ class MainViewModel(
     var isListView = NonNullObservableField(true)
 
     val searchResultLiveData: MutableLiveData<SearchResult?> = MutableLiveData()
+    val businessLiveData: MutableLiveData<Business?> = MutableLiveData()
 
     fun search() = CoroutineScope(Dispatchers.IO).launch {
         val (code, result) = yelpRepository.search(
@@ -42,7 +44,7 @@ class MainViewModel(
         "result: ${result?.total}".log()
 
         withContext(Dispatchers.Main) {
-            searchResultLiveData.value = result
+            searchResultLiveData.postValue(result)
         }
 
         withContext(Dispatchers.Main) {

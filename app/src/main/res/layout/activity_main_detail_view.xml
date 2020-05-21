@@ -13,27 +13,27 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorSecondary"
         tools:context=".activity.MainActivity">
 
         <ImageView
-            android:id="@+id/ivImage"
+            android:id="@id/ivImage"
             android:layout_width="0dp"
             android:layout_height="320dp"
             android:contentDescription="@null"
             android:foreground="?android:attr/selectableItemBackground"
             android:scaleType="centerCrop"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@raw/jollibee" />
 
         <View
-            android:id="@+id/view"
+            android:id="@id/view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="180dp"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="@id/ivImage" />
 
         <TextView
-            android:id="@+id/tvYelp"
+            android:id="@id/tvYelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -58,18 +58,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvR"
+            android:id="@id/tvR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/r"
             android:textColor="@color/amber"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvYelp"
-            app:layout_constraintStart_toEndOf="@+id/tvYelp"
-            app:layout_constraintTop_toTopOf="@+id/tvYelp" />
+            app:layout_constraintBottom_toBottomOf="@id/tvYelp"
+            app:layout_constraintStart_toEndOf="@id/tvYelp"
+            app:layout_constraintTop_toTopOf="@id/tvYelp" />
 
         <ImageView
-            android:id="@+id/ivViewType"
+            android:id="@id/ivViewType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -85,40 +85,31 @@
             tools:src="@drawable/ic_list" />
 
         <LinearLayout
-            android:id="@+id/llNavHostHolder"
+            android:id="@id/llNavHostHolder"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/backdrop"
+            android:layout_marginTop="280dp"
+            android:background="@color/white"
             android:elevation="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/tvInternetStatus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <fragment
-                android:id="@+id/my_nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/main" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.jianastrero.yelpr.view.BackdropForeground
-            android:id="@+id/backdrop"
+            android:id="@id/backdrop"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:elevation="17dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/llNavHostHolder"
             app:layout_constraintEnd_toEndOf="@id/llNavHostHolder"
             app:layout_constraintStart_toStartOf="@id/llNavHostHolder"
             app:layout_constraintTop_toTopOf="@id/llNavHostHolder" />
 
         <TextView
-            android:id="@+id/tvInternetStatus"
+            android:id="@id/tvInternetStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/red"

@@ -17,13 +17,19 @@ import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
+import java.lang.Exception
 
 class SearchResultFragment : BaseFragment() {
 
     private val adapter = BusinessAdapter().apply {
         setOnItemClickListener {
             "setOnItemClickListener: $it".log()
-            findNavController().navigate(R.id.action_searchResultFragment_to_businessFragment)
+            try {
+                viewModel.businessLiveData.postValue(currentList[it])
+                findNavController().navigate(R.id.action_searchResultFragment_to_businessFragment)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
     private val toggleCallback =
@@ -62,7 +68,10 @@ class SearchResultFragment : BaseFragment() {
             } ?: ViewModelProvider(this, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
 
-        layoutManager = GridLayoutManager(requireContext(), 1)
+        layoutManager = GridLayoutManager(
+            requireContext(),
+            if (viewModel.isListView.get()) 1 else 2
+        )
 
         binding.recyclerView.also {
             it.layoutManager = layoutManager

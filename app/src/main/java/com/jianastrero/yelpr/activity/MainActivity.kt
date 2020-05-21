@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.TransitionManager
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -13,6 +15,7 @@ import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.REQUEST_PERMISSION_LOCATION
 import com.jianastrero.yelpr.databinding.ActivityMainBinding
 import com.jianastrero.yelpr.dialog.askConfirmation
+import com.jianastrero.yelpr.extension.into
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var defaultConstraintSet: ConstraintSet
+    private lateinit var detailConstraintSet: ConstraintSet
+    private lateinit var currentConstraintSet: ConstraintSet
 
     private val locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -41,7 +47,31 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
 
-        if (locationPermissions.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }) {
+        defaultConstraintSet = ConstraintSet()
+        defaultConstraintSet.clone(binding.constraintLayout)
+
+        detailConstraintSet = ConstraintSet()
+        detailConstraintSet.clone(this, R.layout.activity_main_detail_view)
+
+        currentConstraintSet = defaultConstraintSet
+
+        viewModel.businessLiveData.observe(
+            this,
+            Observer {
+                if (it != null) {
+                    animateToDetailView()
+                    it.imageUrl?.into(binding.ivImage)
+                } else {
+                    animateToDefaultView()
+                }
+            }
+        )
+
+        if (
+            locationPermissions.all {
+                checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED
+            }
+        ) {
             getLatestLocation()
         } else {
             requestPermission()
@@ -99,5 +129,23 @@ class MainActivity : AppCompatActivity() {
                     viewModel.search()
                 }
             }
+    }
+
+    private fun animateToDetailView() {
+        if (currentConstraintSet == defaultConstraintSet) {
+            TransitionManager.beginDelayedTransition(binding.constraintLayout)
+            currentConstraintSet = detailConstraintSet
+            detailConstraintSet.applyTo(binding.constraintLayout)
+            binding.viewModel = viewModel
+        }
+    }
+
+    private fun animateToDefaultView() {
+        if (currentConstraintSet == detailConstraintSet) {
+            TransitionManager.beginDelayedTransition(binding.constraintLayout)
+            currentConstraintSet = defaultConstraintSet
+            defaultConstraintSet.applyTo(binding.constraintLayout)
+            binding.viewModel = viewModel
+        }
     }
 }
