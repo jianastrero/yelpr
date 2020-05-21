@@ -34,6 +34,9 @@
             android:layout_height="wrap_content"
             android:clipChildren="true"
             android:clipToPadding="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="vertical"
             app:cardBackgroundColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/ivStar2"
@@ -44,6 +47,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
                 android:orientation="vertical"
                 android:paddingBottom="16dp">
 
@@ -51,7 +56,9 @@
                     android:id="@+id/imageView"
                     android:layout_width="0dp"
                     android:layout_height="220dp"
+                    android:clickable="false"
                     android:contentDescription="@null"
+                    android:focusable="false"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +70,9 @@
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_gravity="bottom"
+                    android:clickable="false"
+                    android:contentDescription="@null"
+                    android:focusable="false"
                     android:src="@drawable/gradient_fade_to_white"
                     app:layout_constraintBottom_toBottomOf="@id/imageView"
                     app:layout_constraintEnd_toEndOf="@id/imageView"

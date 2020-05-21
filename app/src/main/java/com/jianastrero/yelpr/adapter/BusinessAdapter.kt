@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.databinding.ItemBusinessBinding
 import com.jianastrero.yelpr.extension.into
+import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.model.Business
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,8 @@ class BusinessAdapter : ListAdapter<Business, BusinessAdapter.ViewHolder>(
             oldItem == newItem
     }
 ) {
+
+    private var onItemClickListener: (Int) -> Unit = { }
 
     var isListView = true
         set(value) {
@@ -53,7 +56,16 @@ class BusinessAdapter : ListAdapter<Business, BusinessAdapter.ViewHolder>(
         holder.binding.item = item
         holder.binding.isListView = isListView
 
+        holder.binding.cardView.setOnClickListener {
+            "onClick: ${holder.adapterPosition}".log()
+            onItemClickListener(holder.adapterPosition)
+        }
+
         item.imageUrl.into(holder.binding.imageView)
+    }
+
+    fun setOnItemClickListener(onItemClickListener: (Int) -> Unit) {
+        this.onItemClickListener = onItemClickListener
     }
 
     class ViewHolder(val binding: ItemBusinessBinding) : RecyclerView.ViewHolder(binding.root)

@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.adapter.BusinessAdapter
@@ -19,9 +20,11 @@ import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
 
 class SearchResultFragment : BaseFragment() {
 
-    private val adapter = BusinessAdapter()
-    private val layoutManager: GridLayoutManager by lazy {
-        GridLayoutManager(requireContext(), 1)
+    private val adapter = BusinessAdapter().apply {
+        setOnItemClickListener {
+            "setOnItemClickListener: $it".log()
+            findNavController().navigate(R.id.action_searchResultFragment_to_businessFragment)
+        }
     }
     private val toggleCallback =
         object : Observable.OnPropertyChangedCallback() {
@@ -34,6 +37,7 @@ class SearchResultFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSearchResultBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +61,8 @@ class SearchResultFragment : BaseFragment() {
                     .get(MainViewModel::class.java)
             } ?: ViewModelProvider(this, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
+
+        layoutManager = GridLayoutManager(requireContext(), 1)
 
         binding.recyclerView.also {
             it.layoutManager = layoutManager
