@@ -25,8 +25,11 @@ class SearchResultFragment : BaseFragment() {
         setOnItemClickListener {
             "setOnItemClickListener: $it".log()
             try {
-                viewModel.businessLiveData.postValue(currentList[it])
-                findNavController().navigate(R.id.action_searchResultFragment_to_businessFragment)
+                val action = SearchResultFragmentDirections
+                    .actionSearchResultFragmentToBusinessFragment(
+                        currentList[it].id
+                    )
+                findNavController().navigate(action)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -65,7 +68,7 @@ class SearchResultFragment : BaseFragment() {
             activity?.let {
                 ViewModelProvider(it, YelprViewModelFactory.getInstance())
                     .get(MainViewModel::class.java)
-            } ?: ViewModelProvider(this, YelprViewModelFactory.getInstance())
+            } ?: ViewModelProvider(viewModelStore, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
 
         layoutManager = GridLayoutManager(

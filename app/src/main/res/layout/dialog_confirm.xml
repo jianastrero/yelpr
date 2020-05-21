@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="@{ () -> onNegativeClickListener.run() }"
                         android:text="@{ negativeText }"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/grayLight"
                         tools:text="Cancel" />
 
                     <androidx.appcompat.widget.AppCompatButton

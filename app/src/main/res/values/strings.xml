@@ -6,4 +6,6 @@
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="search_result">Search Result</string>
     <string name="there_are_no_result_s_for_your_search">There are no result\'s for your search</string>
+    <string name="failed_to_fetch_data">Failed to fetch data</string>
+    <string name="please_check_your_internet_connection">Please check your internet connection</string>
 </resources>

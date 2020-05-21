@@ -14,5 +14,5 @@ data class Location(
     var displayAddress: List<String>?,
     var state: String,
     @SerializedName("zip_code")
-    var zipCode: String
+    var zipCode: String?
 )

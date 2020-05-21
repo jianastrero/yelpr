@@ -1,6 +1,7 @@
 package com.jianastrero.yelpr.viewmodel
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataScope
@@ -10,6 +11,7 @@ import com.jianastrero.yelpr.binding.NonNullObservableField
 import com.jianastrero.yelpr.enumeration.ResponseCode
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.model.Business
+import com.jianastrero.yelpr.model.BusinessFull
 import com.jianastrero.yelpr.model.SearchResult
 import com.jianastrero.yelpr.repository.SearchResultRepository
 import com.jianastrero.yelpr.repository.YelpRepository
@@ -20,7 +22,6 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(
     application: Application,
-    private val searchResultRepository: SearchResultRepository,
     private val yelpRepository: YelpRepository
 ) : AndroidViewModel(application) {
 
@@ -30,8 +31,8 @@ class MainViewModel(
     var searchTerm = NonNullObservableField("")
     var isListView = NonNullObservableField(true)
 
-    val searchResultLiveData: MutableLiveData<SearchResult?> = MutableLiveData()
-    val businessLiveData: MutableLiveData<Business?> = MutableLiveData()
+    val searchResultLiveData = MutableLiveData<SearchResult?>()
+    val businessFull = MutableLiveData<BusinessFull>()
 
     fun search() = CoroutineScope(Dispatchers.IO).launch {
         val (code, result) = yelpRepository.search(
@@ -59,6 +60,28 @@ class MainViewModel(
                 }
             )
         }
+    }
+
+    suspend fun getBusinessFull(id: String) = withContext(Dispatchers.IO) {
+        val (code, result) = yelpRepository.get(id)
+
+        "code: $code".log()
+        "result: $result".log()
+
+        withContext(Dispatchers.Main) {
+            hasInternetConnection.set(
+                when (code) {
+                    ResponseCode.NO_INTERNET_CONNECTION -> {
+                        false
+                    }
+                    else -> {
+                        true
+                    }
+                }
+            )
+        }
+
+        result
     }
 
     fun toggleView() {

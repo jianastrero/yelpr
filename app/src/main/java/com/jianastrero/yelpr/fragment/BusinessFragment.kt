@@ -5,15 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.databinding.FragmentBusinessBinding
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BusinessFragment : BaseFragment() {
+
+    private val args: BusinessFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentBusinessBinding
     private lateinit var viewModel: MainViewModel
@@ -36,20 +42,24 @@ class BusinessFragment : BaseFragment() {
             activity?.let {
                 ViewModelProvider(it, YelprViewModelFactory.getInstance())
                     .get(MainViewModel::class.java)
-            } ?: ViewModelProvider(this, YelprViewModelFactory.getInstance())
+            } ?: ViewModelProvider(viewModelStore, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
 
-        viewModel.businessLiveData.observe(
-            viewLifecycleOwner,
-            Observer {
-                if (it != null) {
-                    binding.item = it
-                }
-            }
-        )
+        binding.status = 0
+        binding.viewModel = viewModel
 
         binding.setOnBackClickedListener {
             activity?.onBackPressed()
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val businessFull = viewModel.getBusinessFull(args.businessId)
+            withContext(Dispatchers.Main) {
+                viewModel.businessFull.value = businessFull
+            }
+
+            binding.status = if (businessFull == null) 1 else 2
+            binding.viewModel = viewModel
         }
 
         return binding.root
@@ -58,6 +68,6 @@ class BusinessFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        viewModel.businessLiveData.postValue(null)
+        viewModel.businessFull.value = null
     }
 }

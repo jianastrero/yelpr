@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         currentConstraintSet = defaultConstraintSet
 
-        viewModel.businessLiveData.observe(
+        viewModel.businessFull.observe(
             this,
             Observer {
                 if (it != null) {

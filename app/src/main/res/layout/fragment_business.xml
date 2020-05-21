@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:jianastrero="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,8 +9,12 @@
         <import type="com.jianastrero.yelpr.extension.NumberKt" />
 
         <variable
-            name="item"
-            type="com.jianastrero.yelpr.model.Business" />
+            name="viewModel"
+            type="com.jianastrero.yelpr.viewmodel.MainViewModel" />
+
+        <variable
+            name="status"
+            type="Integer" />
 
         <variable
             name="onBackClickedListener"
@@ -21,6 +26,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvErrorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/failed_to_fetch_data"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tvErrorSubtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            jianastrero:visible="@{ status == 1 }" />
+
+        <TextView
+            android:id="@+id/tvErrorSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_check_your_internet_connection"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvErrorTitle"
+            app:layout_constraintStart_toStartOf="@id/tvErrorTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvErrorTitle"
+            app:layout_constraintVertical_chainStyle="packed"
+            jianastrero:visible="@{ status == 1 }" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            jianastrero:visible="@{ status == 0 }" />
 
         <ImageView
             android:id="@+id/btnBack"
@@ -43,12 +90,13 @@
             android:fontFamily="@font/nunito_black"
             android:gravity="top|start"
             android:maxLines="3"
-            android:text="@{ item.name }"
+            android:text="@{ viewModel.businessFull.name }"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="@id/btnBack"
+            jianastrero:visible="@{ status == 2 }"
             tools:text="Hello" />
 
         <TextView
@@ -60,12 +108,13 @@
             android:fontFamily="@font/nunito_black"
             android:gravity="top|start"
             android:maxLines="3"
-            android:text="@{ item.categoriesString() }"
+            android:text="@{ viewModel.businessFull.categoriesString() }"
             android:textColor="@color/gray"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            jianastrero:visible="@{ status == 2 }"
             tools:text="Hello" />
 
         <ImageView
@@ -77,18 +126,20 @@
             android:src="@drawable/ic_star"
             android:tint="@color/amber"
             app:layout_constraintStart_toStartOf="@id/tvCategory"
-            app:layout_constraintTop_toBottomOf="@id/tvCategory" />
+            app:layout_constraintTop_toBottomOf="@id/tvCategory"
+            jianastrero:visible="@{ status == 2 }" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{ NumberKt.getTwoDecimal(item.rating) + ` stars (` + item.reviewCount + `)` }"
+            android:text="@{ NumberKt.getTwoDecimal(viewModel.businessFull.rating) + ` stars (` + viewModel.businessFull.reviewCount + `)` }"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/ivStar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivStar"
             app:layout_constraintTop_toTopOf="@id/ivStar"
+            jianastrero:visible="@{ status == 2 }"
             tools:text="4.3 stars (2000)" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

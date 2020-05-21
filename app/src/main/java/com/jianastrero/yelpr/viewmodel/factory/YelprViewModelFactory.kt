@@ -3,7 +3,6 @@ package com.jianastrero.yelpr.viewmodel.factory
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jianastrero.yelpr.repository.SearchResultRepository
 import com.jianastrero.yelpr.repository.YelpRepository
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import java.lang.RuntimeException
@@ -20,7 +19,6 @@ object YelprViewModelFactory {
                         MainViewModel::class.java -> {
                             MainViewModel(
                                 application,
-                                SearchResultRepository.getInstance(),
                                 YelpRepository.getInstance()
                             )
                         }

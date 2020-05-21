@@ -11,10 +11,16 @@
         android:label="SearchResultFragment">
         <action
             android:id="@+id/action_searchResultFragment_to_businessFragment"
-            app:destination="@id/businessFragment" />
+            app:destination="@id/businessFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
         android:id="@+id/businessFragment"
         android:name="com.jianastrero.yelpr.fragment.BusinessFragment"
-        android:label="BusinessFragment" />
+        android:label="BusinessFragment">
+        <argument
+            android:name="businessId"
+            app:argType="string" />
+    </fragment>
 </navigation>

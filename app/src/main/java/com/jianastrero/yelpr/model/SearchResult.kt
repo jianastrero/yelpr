@@ -1,5 +1,6 @@
 package com.jianastrero.yelpr.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -14,6 +15,7 @@ import androidx.room.PrimaryKey
 data class SearchResult @JvmOverloads constructor(
     @Ignore
     var businesses: List<Business>,
+    @Embedded(prefix = "region_")
     var region: Region?,
     var total: Int,
     @PrimaryKey(autoGenerate = true)
