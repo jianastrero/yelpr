@@ -144,6 +144,32 @@
             tools:text="4.3 stars (2000)" />
 
         <ImageView
+            android:id="@+id/ivPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_phone"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintStart_toStartOf="@id/ivStar"
+            app:layout_constraintTop_toBottomOf="@id/ivStar"
+            jianastrero:visible="@{ status == 2 }" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{ viewModel.businessFull.phoneText() }"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPhone"
+            app:layout_constraintTop_toTopOf="@id/ivPhone"
+            jianastrero:visible="@{ status == 2 }"
+            tools:text="@tools:sample/us_phones" />
+
+        <ImageView
             android:id="@+id/ivLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,8 +177,8 @@
             android:contentDescription="@null"
             android:src="@drawable/ic_location"
             android:tint="@color/colorSecondary"
-            app:layout_constraintStart_toStartOf="@id/ivStar"
-            app:layout_constraintTop_toBottomOf="@id/ivStar"
+            app:layout_constraintStart_toStartOf="@id/ivPhone"
+            app:layout_constraintTop_toBottomOf="@id/ivPhone"
             jianastrero:visible="@{ status == 2 }" />
 
         <TextView
@@ -167,10 +193,10 @@
             app:layout_constraintStart_toEndOf="@id/ivLocation"
             app:layout_constraintTop_toTopOf="@id/ivLocation"
             jianastrero:visible="@{ status == 2 }"
-            tools:text="1, Purok 5, Victoria, San Mateo, Isabela" />
+            tools:text="@tools:sample/cities" />
 
         <ImageView
-            android:id="@+id/ivTime"
+            android:id="@+id/ivSchedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -182,6 +208,7 @@
             jianastrero:visible="@{ status == 2 }" />
 
         <TextView
+            android:id="@+id/tvSchedule"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -189,10 +216,35 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivTime"
-            app:layout_constraintTop_toTopOf="@id/ivTime"
+            app:layout_constraintStart_toEndOf="@id/ivSchedule"
+            app:layout_constraintTop_toTopOf="@id/ivSchedule"
             jianastrero:visible="@{ status == 2 }"
             tools:text="@tools:sample/date/hhmm" />
+
+        <ImageView
+            android:id="@+id/ivDeals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_money"
+            android:tint="@color/colorSecondary"
+            app:layout_constraintStart_toStartOf="@id/ivSchedule"
+            app:layout_constraintTop_toBottomOf="@id/tvSchedule"
+            jianastrero:visible="@{ status == 2 }" />
+
+        <TextView
+            android:id="@+id/tvDeals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/there_are_no_deals_available_for_this_business_using_yelp_api"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivDeals"
+            app:layout_constraintTop_toTopOf="@id/ivDeals"
+            jianastrero:visible="@{ status == 2 }" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,4 +8,5 @@
     <string name="there_are_no_result_s_for_your_search">There are no result\'s for your search</string>
     <string name="failed_to_fetch_data">Failed to fetch data</string>
     <string name="please_check_your_internet_connection">Please check your internet connection</string>
+    <string name="there_are_no_deals_available_for_this_business_using_yelp_api">There are no deals available for this business using Yelp API</string>
 </resources>

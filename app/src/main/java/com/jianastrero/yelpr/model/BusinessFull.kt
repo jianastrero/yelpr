@@ -83,6 +83,14 @@ data class BusinessFull(
         }
     }
 
+    fun phoneText(): String {
+        return if (displayPhone.trim().isEmpty()) {
+            "None"
+        } else {
+            displayPhone
+        }
+    }
+
     private val String.toTime: String
         get() {
             var hour = substring(0 until 2).toInt()
