@@ -10,6 +10,10 @@
             name="viewModel"
             type="com.jianastrero.yelpr.viewmodel.MainViewModel" />
 
+        <variable
+            name="onBackClickedListener"
+            type="Runnable" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@raw/jollibee" />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <View
             android:id="@id/view"
@@ -86,7 +90,7 @@
             tools:src="@drawable/ic_list" />
 
         <LinearLayout
-            android:id="@id/llNavHostHolder"
+            android:id="@id/navHostHolder"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="280dp"
@@ -104,10 +108,10 @@
             android:layout_height="0dp"
             android:elevation="17dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/llNavHostHolder"
-            app:layout_constraintEnd_toEndOf="@id/llNavHostHolder"
-            app:layout_constraintStart_toStartOf="@id/llNavHostHolder"
-            app:layout_constraintTop_toTopOf="@id/llNavHostHolder" />
+            app:layout_constraintBottom_toBottomOf="@id/navHostHolder"
+            app:layout_constraintEnd_toEndOf="@id/navHostHolder"
+            app:layout_constraintStart_toStartOf="@id/navHostHolder"
+            app:layout_constraintTop_toTopOf="@id/navHostHolder" />
 
         <TextView
             android:id="@id/tvInternetStatus"
@@ -123,6 +127,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             jianastrero:visible="@{ !viewModel.hasInternetConnection }" />
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:elevation="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{ () -> onBackClickedListener.run() }"
+            android:padding="16dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/colorSecondary"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@id/navHostHolder"
+            app:layout_constraintTop_toTopOf="@id/navHostHolder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

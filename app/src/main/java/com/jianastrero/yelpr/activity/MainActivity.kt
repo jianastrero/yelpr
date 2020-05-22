@@ -1,10 +1,12 @@
 package com.jianastrero.yelpr.activity
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,6 +17,7 @@ import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.REQUEST_PERMISSION_LOCATION
 import com.jianastrero.yelpr.databinding.ActivityMainBinding
 import com.jianastrero.yelpr.dialog.askConfirmation
+import com.jianastrero.yelpr.extension.dp
 import com.jianastrero.yelpr.extension.into
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.viewmodel.MainViewModel
@@ -38,8 +41,13 @@ class MainActivity : AppCompatActivity() {
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
+    private var lastBackClick = 0L
+    private var backdropTopMargin = 0
+    private var ghostStartTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         viewModel = ViewModelProvider(this, YelprViewModelFactory.getInstance())
@@ -66,6 +74,53 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
+
+        binding.navHostHolder.setOnGhostStartListener {
+            ghostStartTime = System.currentTimeMillis()
+        }
+
+        binding.navHostHolder.setOnGhostDragListener { startY, moveY ->
+            val lp = binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams
+            lp.topMargin = backdropTopMargin + (moveY - startY).toInt()
+            binding.navHostHolder.layoutParams = lp
+        }
+
+        binding.navHostHolder.setOnGhostReleaseListener {
+            val lp = binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams
+            val end =
+                if (System.currentTimeMillis() - ghostStartTime < 200) {
+                    if (it == 1) {
+                        280.dp.toInt()
+                    } else {
+                        0
+                    }
+                } else {
+                    if (lp.topMargin > 280.dp / 2) {
+                        280.dp.toInt()
+                    } else {
+                        0
+                    }
+                }
+            val anim = ValueAnimator.ofInt(lp.topMargin, end)
+            anim.addUpdateListener {
+                lp.topMargin = it.animatedValue as Int
+                binding.navHostHolder.layoutParams = lp
+
+                if (it.animatedFraction == 1f) {
+                    backdropTopMargin = lp.topMargin
+                    binding.navHostHolder.isEnabled = true
+                }
+            }
+            anim.start()
+            binding.navHostHolder.isEnabled = false
+        }
+
+        binding.setOnBackClickedListener {
+            if (System.currentTimeMillis() - lastBackClick > 1000) {
+                onBackPressed()
+                lastBackClick = System.currentTimeMillis()
+            }
+        }
 
         if (
             locationPermissions.all {
@@ -137,6 +192,9 @@ class MainActivity : AppCompatActivity() {
             currentConstraintSet = detailConstraintSet
             detailConstraintSet.applyTo(binding.constraintLayout)
             binding.viewModel = viewModel
+            binding.navHostHolder.scrollable = false
+            backdropTopMargin =
+                (binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams).topMargin
         }
     }
 
@@ -146,6 +204,9 @@ class MainActivity : AppCompatActivity() {
             currentConstraintSet = defaultConstraintSet
             defaultConstraintSet.applyTo(binding.constraintLayout)
             binding.viewModel = viewModel
+            binding.navHostHolder.scrollable = true
+            backdropTopMargin =
+                (binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams).topMargin
         }
     }
 }

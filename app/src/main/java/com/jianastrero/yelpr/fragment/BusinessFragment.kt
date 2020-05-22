@@ -51,10 +51,6 @@ class BusinessFragment : BaseFragment() {
         binding.status = 0
         binding.viewModel = viewModel
 
-        binding.setOnBackClickedListener {
-            activity?.onBackPressed()
-        }
-
         binding.recyclerView.also {
             it.layoutManager = object : GridLayoutManager(requireContext(), 2) {
                 override fun canScrollVertically(): Boolean = false
@@ -70,11 +66,10 @@ class BusinessFragment : BaseFragment() {
             }
 
             withContext(Dispatchers.Main) {
-                viewModel.businessFull.value = businessFull
-            }
-
-            businessFull?.let {
-                adapter.submitList(it.photos)
+                viewModel.businessFull.postValue(businessFull)
+                businessFull?.let {
+                    adapter.submitList(it.photos)
+                }
             }
 
             binding.status = if (businessFull == null) 1 else 2

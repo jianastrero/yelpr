@@ -25,14 +25,17 @@ class MainViewModel(
     private val yelpRepository: YelpRepository
 ) : AndroidViewModel(application) {
 
+    val searchResultLiveData = MutableLiveData<SearchResult?>()
+    val businessFull = MutableLiveData<BusinessFull>()
+    val isDetailViewExpanded = MutableLiveData<Boolean>().apply {
+        postValue(false)
+    }
+
     var hasInternetConnection = NonNullObservableField(true)
     var latitude = 0.0
     var longitude = 0.0
     var searchTerm = NonNullObservableField("")
     var isListView = NonNullObservableField(true)
-
-    val searchResultLiveData = MutableLiveData<SearchResult?>()
-    val businessFull = MutableLiveData<BusinessFull>()
 
     fun search() = CoroutineScope(Dispatchers.IO).launch {
         val (code, result) = yelpRepository.search(
