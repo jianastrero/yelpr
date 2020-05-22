@@ -24,55 +24,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/tvErrorTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/failed_to_fetch_data"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/tvErrorSubtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            jianastrero:visible="@{ status == 1 }" />
-
-        <TextView
-            android:id="@+id/tvErrorSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/please_check_your_internet_connection"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tvErrorTitle"
-            app:layout_constraintStart_toStartOf="@id/tvErrorTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvErrorTitle"
-            app:layout_constraintVertical_chainStyle="packed"
-            jianastrero:visible="@{ status == 1 }" />
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            jianastrero:visible="@{ status == 0 }" />
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:onClick="@{ () -> onBackClickedListener.run() }"
             android:padding="16dp"
@@ -81,170 +38,240 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/nunito_black"
-            android:gravity="top|start"
-            android:maxLines="3"
-            android:text="@{ viewModel.businessFull.name }"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
-            app:layout_constraintTop_toTopOf="@id/btnBack"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="Hello" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/nunito_black"
-            android:gravity="top|start"
-            android:maxLines="3"
-            android:text="@{ viewModel.businessFull.categoriesString() }"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/tvTitle"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="Hello" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
 
-        <ImageView
-            android:id="@+id/ivStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_star"
-            android:tint="@color/amber"
-            app:layout_constraintStart_toStartOf="@id/tvCategory"
-            app:layout_constraintTop_toBottomOf="@id/tvCategory"
-            jianastrero:visible="@{ status == 2 }" />
+                <TextView
+                    android:id="@+id/tvErrorTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/failed_to_fetch_data"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/tvErrorSubtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    jianastrero:visible="@{ status == 1 }" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@{ NumberKt.getTwoDecimal(viewModel.businessFull.rating) + ` stars (` + viewModel.businessFull.reviewCount + `)` }"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivStar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivStar"
-            app:layout_constraintTop_toTopOf="@id/ivStar"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="4.3 stars (2000)" />
+                <TextView
+                    android:id="@+id/tvErrorSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/please_check_your_internet_connection"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tvErrorTitle"
+                    app:layout_constraintStart_toStartOf="@id/tvErrorTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvErrorTitle"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    jianastrero:visible="@{ status == 1 }" />
 
-        <ImageView
-            android:id="@+id/ivPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_phone"
-            android:tint="@color/colorSecondary"
-            app:layout_constraintStart_toStartOf="@id/ivStar"
-            app:layout_constraintTop_toBottomOf="@id/ivStar"
-            jianastrero:visible="@{ status == 2 }" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    jianastrero:visible="@{ status == 0 }" />
 
-        <TextView
-            android:id="@+id/tvPhone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@{ viewModel.businessFull.phoneText() }"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPhone"
-            app:layout_constraintTop_toTopOf="@id/ivPhone"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="@tools:sample/us_phones" />
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_black"
+                    android:gravity="top|start"
+                    android:maxLines="3"
+                    android:text="@{ viewModel.businessFull.name }"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="Hello" />
 
-        <ImageView
-            android:id="@+id/ivLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_location"
-            android:tint="@color/colorSecondary"
-            app:layout_constraintStart_toStartOf="@id/ivPhone"
-            app:layout_constraintTop_toBottomOf="@id/ivPhone"
-            jianastrero:visible="@{ status == 2 }" />
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_black"
+                    android:gravity="top|start"
+                    android:maxLines="3"
+                    android:text="@{ viewModel.businessFull.categoriesString() }"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@id/tvTitle"
+                    app:layout_constraintStart_toStartOf="@id/tvTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="Hello" />
 
-        <TextView
-            android:id="@+id/tvLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@{ viewModel.businessFull.location.toString() }"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivLocation"
-            app:layout_constraintTop_toTopOf="@id/ivLocation"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="@tools:sample/cities" />
+                <ImageView
+                    android:id="@+id/ivStar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/amber"
+                    app:layout_constraintStart_toStartOf="@id/tvCategory"
+                    app:layout_constraintTop_toBottomOf="@id/tvCategory"
+                    jianastrero:visible="@{ status == 2 }" />
 
-        <ImageView
-            android:id="@+id/ivSchedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_time"
-            android:tint="@color/colorSecondary"
-            app:layout_constraintStart_toStartOf="@id/ivLocation"
-            app:layout_constraintTop_toBottomOf="@id/tvLocation"
-            jianastrero:visible="@{ status == 2 }" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{ NumberKt.getTwoDecimal(viewModel.businessFull.rating) + ` stars (` + viewModel.businessFull.reviewCount + `)` }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivStar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivStar"
+                    app:layout_constraintTop_toTopOf="@id/ivStar"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="4.3 stars (2000)" />
 
-        <TextView
-            android:id="@+id/tvSchedule"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@{ viewModel.businessFull.schedule() }"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivSchedule"
-            app:layout_constraintTop_toTopOf="@id/ivSchedule"
-            jianastrero:visible="@{ status == 2 }"
-            tools:text="@tools:sample/date/hhmm" />
+                <ImageView
+                    android:id="@+id/ivPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_phone"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintStart_toStartOf="@id/ivStar"
+                    app:layout_constraintTop_toBottomOf="@id/ivStar"
+                    jianastrero:visible="@{ status == 2 }" />
 
-        <ImageView
-            android:id="@+id/ivDeals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_money"
-            android:tint="@color/colorSecondary"
-            app:layout_constraintStart_toStartOf="@id/ivSchedule"
-            app:layout_constraintTop_toBottomOf="@id/tvSchedule"
-            jianastrero:visible="@{ status == 2 }" />
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{ viewModel.businessFull.phoneText() }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivPhone"
+                    app:layout_constraintTop_toTopOf="@id/ivPhone"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="@tools:sample/us_phones" />
 
-        <TextView
-            android:id="@+id/tvDeals"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/there_are_no_deals_available_for_this_business_using_yelp_api"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivDeals"
-            app:layout_constraintTop_toTopOf="@id/ivDeals"
-            jianastrero:visible="@{ status == 2 }" />
+                <ImageView
+                    android:id="@+id/ivLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintStart_toStartOf="@id/ivPhone"
+                    app:layout_constraintTop_toBottomOf="@id/ivPhone"
+                    jianastrero:visible="@{ status == 2 }" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{ viewModel.businessFull.location.toString() }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivLocation"
+                    app:layout_constraintTop_toTopOf="@id/ivLocation"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="@tools:sample/cities" />
+
+                <ImageView
+                    android:id="@+id/ivSchedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_time"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintStart_toStartOf="@id/ivLocation"
+                    app:layout_constraintTop_toBottomOf="@id/tvLocation"
+                    jianastrero:visible="@{ status == 2 }" />
+
+                <TextView
+                    android:id="@+id/tvSchedule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{ viewModel.businessFull.schedule() }"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivSchedule"
+                    app:layout_constraintTop_toTopOf="@id/ivSchedule"
+                    jianastrero:visible="@{ status == 2 }"
+                    tools:text="@tools:sample/date/hhmm" />
+
+                <ImageView
+                    android:id="@+id/ivDeals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_money"
+                    android:tint="@color/colorSecondary"
+                    app:layout_constraintStart_toStartOf="@id/ivSchedule"
+                    app:layout_constraintTop_toBottomOf="@id/tvSchedule"
+                    jianastrero:visible="@{ status == 2 }" />
+
+                <TextView
+                    android:id="@+id/tvDeals"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/there_are_no_deals_available_for_this_business_using_yelp_api"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivDeals"
+                    app:layout_constraintTop_toTopOf="@id/ivDeals"
+                    jianastrero:visible="@{ status == 2 }" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:focusable="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDeals" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

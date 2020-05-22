@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jianastrero.yelpr.R
+import com.jianastrero.yelpr.adapter.SquareImageAdapter
 import com.jianastrero.yelpr.databinding.FragmentBusinessBinding
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
@@ -20,6 +22,7 @@ import kotlinx.coroutines.withContext
 class BusinessFragment : BaseFragment() {
 
     private val args: BusinessFragmentArgs by navArgs()
+    private val adapter = SquareImageAdapter()
 
     private lateinit var binding: FragmentBusinessBinding
     private lateinit var viewModel: MainViewModel
@@ -52,10 +55,26 @@ class BusinessFragment : BaseFragment() {
             activity?.onBackPressed()
         }
 
+        binding.recyclerView.also {
+            it.layoutManager = object : GridLayoutManager(requireContext(), 2) {
+                override fun canScrollVertically(): Boolean = false
+            }
+            it.adapter = adapter
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val businessFull = viewModel.getBusinessFull(args.businessId)
+
+            if (!isVisible) {
+                return@launch
+            }
+
             withContext(Dispatchers.Main) {
                 viewModel.businessFull.value = businessFull
+            }
+
+            businessFull?.let {
+                adapter.submitList(it.photos)
             }
 
             binding.status = if (businessFull == null) 1 else 2
