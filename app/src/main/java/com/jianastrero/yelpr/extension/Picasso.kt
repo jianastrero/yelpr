@@ -14,7 +14,6 @@ fun String?.into(imageView: ImageView) {
                 .load(R.drawable.ic_broken_image)
                 .placeholder(R.drawable.loading)
                 .centerCrop()
-                .fit()
                 .into(imageView)
         } else {
             Picasso.get()
@@ -22,7 +21,7 @@ fun String?.into(imageView: ImageView) {
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.ic_broken_image)
                 .centerCrop()
-                .fit()
+                .resize(320, 320)
                 .into(imageView)
         }
     }
