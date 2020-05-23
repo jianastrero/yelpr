@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     private var lastBackClick = 0L
     private var backdropTopMargin = 0
     private var ghostStartTime = 0L
+    private var isManualExpanded = false
+    private var startScrollY = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,30 +77,85 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        binding.navHostHolder.setOnGhostStartListener {
+        binding.navHostHolder.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            "scrollY: $scrollY".log()
+            if (startScrollY == -1) {
+                startScrollY = scrollY
+            }
+            if (scrollY == 0 && viewModel.isDetailViewExpanded.value == true) {
+                binding.navHostHolder.scrollable = false
+                isManualExpanded = true
+            }
+        }
+
+        binding.navHostHolder.setOnGhostStartListener { _, direction ->
+            "setOnGhostStartListener".log()
+            if (
+                viewModel.isDetailViewExpanded.value == true &&
+                binding.navHostHolder.scrollY == 0 &&
+                direction < 0
+            ) {
+                binding.navHostHolder.scrollable = false
+                isManualExpanded = true
+            }
+
+            if (!isManualExpanded && viewModel.isDetailViewExpanded.value == true) {
+                binding.navHostHolder.scrollable = true
+            }
             ghostStartTime = System.currentTimeMillis()
         }
 
         binding.navHostHolder.setOnGhostDragListener { startY, moveY ->
             val lp = binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams
-            lp.topMargin = backdropTopMargin + (moveY - startY).toInt()
-            binding.navHostHolder.layoutParams = lp
+
+            if (backdropTopMargin == 0) {
+                binding.navHostHolder.scrollable = moveY - startY < 0
+            }
+
+            if (!binding.navHostHolder.scrollable) {
+
+                lp.topMargin = backdropTopMargin + (moveY - startY).toInt()
+
+                if (lp.topMargin > 400.dp) {
+                    lp.topMargin = 400.dp.toInt()
+                } else if (lp.topMargin < 60.dp) {
+                    lp.topMargin = 60.dp.toInt() - startScrollY
+                } else {
+                    if (lp.topMargin > 280.dp) {
+                        binding.ivImage.scaleX = 1f + (1f - 280.dp / lp.topMargin) * 2f
+                        binding.ivImage.scaleY = 1f + (1f - 280.dp / lp.topMargin) * 2f
+                        binding.ivImage.translationY = (lp.topMargin - 320.dp).coerceAtLeast(0f)
+                    }
+                }
+
+                if (binding.ivImage.scaleX < 1f || binding.ivImage.scaleY < 1f) {
+                    binding.ivImage.scaleX = 1f
+                    binding.ivImage.scaleY = 1f
+                }
+
+                binding.navHostHolder.layoutParams = lp
+            }
         }
 
         binding.navHostHolder.setOnGhostReleaseListener {
             val lp = binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams
+            val isManualExpanded: Boolean
             val end =
                 if (System.currentTimeMillis() - ghostStartTime < 200) {
                     if (it == 1) {
+                        isManualExpanded = true
                         280.dp.toInt()
                     } else {
-                        0
+                        isManualExpanded = false
+                        60.dp.toInt()
                     }
                 } else {
-                    if (lp.topMargin > 280.dp / 2) {
+                    if (lp.topMargin > (280 + 60).dp / 2) {
+                        isManualExpanded = true
                         280.dp.toInt()
                     } else {
-                        0
+                        isManualExpanded = false
+                        60.dp.toInt()
                     }
                 }
             val anim = ValueAnimator.ofInt(lp.topMargin, end)
@@ -109,10 +166,28 @@ class MainActivity : AppCompatActivity() {
                 if (it.animatedFraction == 1f) {
                     backdropTopMargin = lp.topMargin
                     binding.navHostHolder.isEnabled = true
+                    this.isManualExpanded = isManualExpanded
                 }
             }
+
             anim.start()
+            ValueAnimator.ofFloat(binding.ivImage.scaleX, 1f)
+                .also {
+                    it.addUpdateListener {
+                        binding.ivImage.scaleX = (it.animatedValue as Float)
+                        binding.ivImage.scaleY = (it.animatedValue as Float)
+                    }
+                }
+                .start()
+            ValueAnimator.ofFloat(binding.ivImage.translationY, 0f)
+                .also {
+                    it.addUpdateListener {
+                        binding.ivImage.translationY = (it.animatedValue as Float)
+                    }
+                }
+                .start()
             binding.navHostHolder.isEnabled = false
+            startScrollY = -1
         }
 
         binding.setOnBackClickedListener {
@@ -193,6 +268,8 @@ class MainActivity : AppCompatActivity() {
             detailConstraintSet.applyTo(binding.constraintLayout)
             binding.viewModel = viewModel
             binding.navHostHolder.scrollable = false
+            viewModel.isDetailViewExpanded.postValue(true)
+            isManualExpanded = true
             backdropTopMargin =
                 (binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams).topMargin
         }
@@ -205,6 +282,7 @@ class MainActivity : AppCompatActivity() {
             defaultConstraintSet.applyTo(binding.constraintLayout)
             binding.viewModel = viewModel
             binding.navHostHolder.scrollable = true
+            viewModel.isDetailViewExpanded.postValue(false)
             backdropTopMargin =
                 (binding.navHostHolder.layoutParams as ConstraintLayout.LayoutParams).topMargin
         }
