@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.adapter.SquareImageAdapter
 import com.jianastrero.yelpr.databinding.FragmentBusinessBinding
+import com.jianastrero.yelpr.dialog.showImage
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
@@ -22,7 +23,11 @@ import kotlinx.coroutines.withContext
 class BusinessFragment : BaseFragment() {
 
     private val args: BusinessFragmentArgs by navArgs()
-    private val adapter = SquareImageAdapter()
+    private val adapter = SquareImageAdapter().apply {
+        setOnItemClickListener {
+            showImage(childFragmentManager, currentList[it]) { }
+        }
+    }
 
     private lateinit var binding: FragmentBusinessBinding
     private lateinit var viewModel: MainViewModel
