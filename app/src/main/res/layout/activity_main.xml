@@ -14,6 +14,14 @@
             name="onBackClickedListener"
             type="Runnable" />
 
+        <variable
+            name="onSortClickedListener"
+            type="Runnable" />
+
+        <variable
+            name="onSearchClickedListener"
+            type="Runnable" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,10 +91,63 @@
             android:padding="8dp"
             android:src="@{ viewModel.isListView ? @drawable/ic_list : @drawable/ic_grid }"
             android:tint="@color/white"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/tvR"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvR"
             tools:src="@drawable/ic_list" />
+
+        <ImageView
+            android:id="@+id/ivSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{ () -> onSortClickedListener.run() }"
+            android:padding="8dp"
+            android:src="@drawable/ic_sort"
+            android:tint="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/ivViewType"
+            app:layout_constraintEnd_toStartOf="@id/ivViewType"
+            app:layout_constraintTop_toTopOf="@id/ivViewType" />
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{ () -> onSearchClickedListener.run() }"
+            android:padding="8dp"
+            android:src="@drawable/ic_search"
+            android:tint="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/ivSort"
+            app:layout_constraintEnd_toStartOf="@id/ivSort"
+            app:layout_constraintTop_toTopOf="@id/ivSort" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edittext"
+            android:hint="@string/search"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="@={ viewModel.searchTerm }"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/tvR"
+            app:layout_constraintEnd_toStartOf="@id/ivSearch"
+            app:layout_constraintStart_toEndOf="@id/tvR"
+            app:layout_constraintTop_toTopOf="@id/tvR" />
 
         <com.jianastrero.yelpr.view.DynamicScrollView
             android:id="@+id/navHostHolder"

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.jianastrero.yelpr.binding.NonNullObservableField
 import com.jianastrero.yelpr.enumeration.ResponseCode
+import com.jianastrero.yelpr.enumeration.SortBy
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.model.Business
 import com.jianastrero.yelpr.model.BusinessFull
@@ -29,6 +30,9 @@ class MainViewModel(
     val businessFull = MutableLiveData<BusinessFull>()
     val isDetailViewExpanded = MutableLiveData<Boolean>().apply {
         postValue(false)
+    }
+    val sortBy = MutableLiveData<SortBy>().apply {
+        postValue(SortBy.NAME_ASC)
     }
 
     var hasInternetConnection = NonNullObservableField(true)

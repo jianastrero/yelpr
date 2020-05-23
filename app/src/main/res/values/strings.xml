@@ -9,4 +9,8 @@
     <string name="failed_to_fetch_data">Failed to fetch data</string>
     <string name="please_check_your_internet_connection">Please check your internet connection</string>
     <string name="there_are_no_deals_available_for_this_business_using_yelp_api">There are no deals available for this business using Yelp API</string>
+    <string name="name">Name</string>
+    <string name="distance">Distance</string>
+    <string name="price">Price</string>
+    <string name="search">Search</string>
 </resources>

@@ -3,9 +3,11 @@ package com.jianastrero.yelpr.activity
 import android.Manifest
 import android.animation.ValueAnimator
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
@@ -17,6 +19,7 @@ import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.REQUEST_PERMISSION_LOCATION
 import com.jianastrero.yelpr.databinding.ActivityMainBinding
 import com.jianastrero.yelpr.dialog.askConfirmation
+import com.jianastrero.yelpr.enumeration.SortBy
 import com.jianastrero.yelpr.extension.dp
 import com.jianastrero.yelpr.extension.into
 import com.jianastrero.yelpr.extension.log
@@ -76,6 +79,37 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
+
+        binding.setOnSortClickedListener {
+            val currentSortBy = viewModel.sortBy.value
+            val popup = PopupMenu(this, binding.ivSort)
+            popup.menuInflater.inflate(
+                when (viewModel.sortBy.value) {
+                    SortBy.NAME_DESC -> R.menu.sort_name_desc
+                    SortBy.PRICE_ASC -> R.menu.sort_price_asc
+                    SortBy.PRICE_DESC -> R.menu.sort_price_desc
+                    SortBy.DISTANCE_ASC -> R.menu.sort_distance_asc
+                    SortBy.DISTANCE_DESC -> R.menu.sort_distance_desc
+                    else -> R.menu.sort_name_asc
+                },
+                popup.menu
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                popup.setForceShowIcon(true)
+            }
+            popup.setOnMenuItemClickListener {
+                val x = SortBy.getAll(it.title.toString())
+                viewModel.sortBy.postValue(
+                    if (currentSortBy in x) {
+                        x.first { it != currentSortBy }
+                    } else {
+                        x.first { it.name.contains("asc", true) }
+                    }
+                )
+                true
+            }
+            popup.show()
+        }
 
         binding.navHostHolder.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             "scrollY: $scrollY".log()

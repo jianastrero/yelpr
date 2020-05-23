@@ -12,6 +12,7 @@
     <color name="amber">#ffbf00</color>
     <color name="red">#D32F2F</color>
     <color name="transparentWhite">#00FFFFFF</color>
+    <color name="translucentWhite">#88FFFFFF</color>
     <color name="transparentBlack">#00000000</color>
     <color name="transparentSecondary">#006E48AA</color>
 </resources>

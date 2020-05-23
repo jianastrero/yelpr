@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jianastrero.yelpr.R
 import com.jianastrero.yelpr.adapter.BusinessAdapter
 import com.jianastrero.yelpr.databinding.FragmentSearchResultBinding
+import com.jianastrero.yelpr.enumeration.SortBy
 import com.jianastrero.yelpr.extension.log
 import com.jianastrero.yelpr.fragment.base.BaseFragment
 import com.jianastrero.yelpr.viewmodel.MainViewModel
@@ -88,6 +89,16 @@ class SearchResultFragment : BaseFragment() {
                 if (it != null) {
                     adapter.submitList(it.businesses)
                     binding.status = if (it.businesses.isEmpty()) 1 else 2
+                    performSort()
+                }
+            }
+        )
+
+        viewModel.sortBy.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it != null) {
+                    performSort()
                 }
             }
         )
@@ -105,5 +116,31 @@ class SearchResultFragment : BaseFragment() {
         super.onPause()
 
         viewModel.isListView.removeOnPropertyChangedCallback(toggleCallback)
+    }
+
+    private fun performSort() {
+        viewModel.searchResultLiveData.value?.businesses?.let {
+            val sort = viewModel.sortBy.value
+            val x = it.toMutableList().also {
+                if (sort?.name?.contains("asc", true) == true) {
+                    it.sortBy {
+                        when (sort) {
+                            SortBy.PRICE_ASC -> it.price
+                            SortBy.DISTANCE_ASC -> it.distance.toString()
+                            else -> it.name
+                        }
+                    }
+                } else {
+                    it.sortByDescending {
+                        when (sort) {
+                            SortBy.PRICE_DESC -> it.price
+                            SortBy.DISTANCE_DESC -> it.distance.toString()
+                            else -> it.name
+                        }
+                    }
+                }
+            }
+            adapter.submitList(x)
+        }
     }
 }
