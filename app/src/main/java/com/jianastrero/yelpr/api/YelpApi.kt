@@ -12,14 +12,22 @@ interface YelpApi {
     @GET("businesses/search")
     suspend fun search(
         @Query("latitude") latitude: Double,
-        @Query("longitude") longitude: Double
+        @Query("longitude") longitude: Double,
+        @Query("limit") limit: Int
     ): Response<SearchResult>
 
     @GET("businesses/search")
     suspend fun search(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("term") term: String
+        @Query("term") term: String,
+        @Query("limit") limit: Int
+    ): Response<SearchResult>
+
+    @GET("businesses/search")
+    suspend fun search(
+        @Query("location") location: String,
+        @Query("limit") limit: Int
     ): Response<SearchResult>
 
     @GET("businesses/{id}")

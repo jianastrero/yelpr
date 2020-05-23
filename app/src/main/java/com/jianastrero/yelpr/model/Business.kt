@@ -40,7 +40,7 @@ data class Business @JvmOverloads constructor(
     var location: Location,
     var name: String,
     var phone: String,
-    var price: String,
+    var price: String?,
     var rating: Double,
     @SerializedName("review_count")
     var reviewCount: Int,

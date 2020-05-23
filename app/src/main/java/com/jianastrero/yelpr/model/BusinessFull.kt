@@ -33,7 +33,7 @@ data class BusinessFull(
     var name: String,
     var phone: String,
     var photos: List<String>,
-    var price: String,
+    var price: String?,
     var rating: Double,
     @SerializedName("review_count")
     var reviewCount: Int,

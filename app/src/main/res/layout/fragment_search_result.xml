@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.jianastrero.yelpr.viewmodel.MainViewModel" />
+
+        <variable
             name="status"
             type="Integer" />
 
@@ -21,7 +25,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            jianastrero:visible="@{ status == 1 }">
+            jianastrero:visible="@{ status == 1 &amp;&amp; !viewModel.isSearching() }">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,7 +49,7 @@
             android:layout_gravity="center|top"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            jianastrero:visible="@{ status == 0 }" />
+            jianastrero:visible="@{ status == 0 || viewModel.isSearching() }" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -53,7 +57,7 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            jianastrero:visible="@{ status == 2 }"
+            jianastrero:visible="@{ status == 2 &amp;&amp; !viewModel.isSearching() }"
             tools:listitem="@layout/item_business" />
 
     </FrameLayout>

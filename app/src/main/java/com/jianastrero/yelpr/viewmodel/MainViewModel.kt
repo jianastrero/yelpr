@@ -1,20 +1,14 @@
 package com.jianastrero.yelpr.viewmodel
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.jianastrero.yelpr.binding.NonNullObservableField
 import com.jianastrero.yelpr.enumeration.ResponseCode
 import com.jianastrero.yelpr.enumeration.SortBy
 import com.jianastrero.yelpr.extension.log
-import com.jianastrero.yelpr.model.Business
 import com.jianastrero.yelpr.model.BusinessFull
 import com.jianastrero.yelpr.model.SearchResult
-import com.jianastrero.yelpr.repository.SearchResultRepository
 import com.jianastrero.yelpr.repository.YelpRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,28 +28,34 @@ class MainViewModel(
     val sortBy = MutableLiveData<SortBy>().apply {
         postValue(SortBy.NAME_ASC)
     }
+    val isSearching = NonNullObservableField(true)
+    val hasInternetConnection = NonNullObservableField(true)
+    val searchTerm = NonNullObservableField("")
+    val isListView = NonNullObservableField(true)
 
-    var hasInternetConnection = NonNullObservableField(true)
     var latitude = 0.0
     var longitude = 0.0
-    var searchTerm = NonNullObservableField("")
-    var isListView = NonNullObservableField(true)
+    var isSearchingLocation = false
 
     fun search() = CoroutineScope(Dispatchers.IO).launch {
-        val (code, result) = yelpRepository.search(
-            latitude,
-            longitude,
-            searchTerm.get()
-        )
+        val (code, result) =
+            if (isSearchingLocation) {
+                yelpRepository.search(searchTerm.get())
+            } else {
+                yelpRepository.search(
+                    latitude,
+                    longitude,
+                    searchTerm.get()
+                )
+            }
 
         "code: $code".log()
         "result: ${result?.total}".log()
 
         withContext(Dispatchers.Main) {
             searchResultLiveData.postValue(result)
-        }
+            isSearching.set(false)
 
-        withContext(Dispatchers.Main) {
             hasInternetConnection.set(
                 when (code) {
                     ResponseCode.NO_INTERNET_CONNECTION -> {
@@ -76,6 +76,8 @@ class MainViewModel(
         "result: $result".log()
 
         withContext(Dispatchers.Main) {
+            isSearching.set(false)
+
             hasInternetConnection.set(
                 when (code) {
                     ResponseCode.NO_INTERNET_CONNECTION -> {

@@ -63,14 +63,15 @@ class SearchResultFragment : BaseFragment() {
             )
         }
 
-        binding.status = 0
-
         viewModel =
             activity?.let {
                 ViewModelProvider(it, YelprViewModelFactory.getInstance())
                     .get(MainViewModel::class.java)
             } ?: ViewModelProvider(viewModelStore, YelprViewModelFactory.getInstance())
                 .get(MainViewModel::class.java)
+
+        binding.viewModel = viewModel
+        binding.status = 0
 
         layoutManager = GridLayoutManager(
             requireContext(),

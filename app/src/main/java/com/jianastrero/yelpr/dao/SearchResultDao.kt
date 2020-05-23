@@ -49,6 +49,16 @@ interface SearchResultDao : BaseDao<SearchResult> {
 
     @Query(
         """
+        SELECT * FROM search_results
+        WHERE term = :location
+        ORDER BY localId asc
+        LIMIT 1
+    """
+    )
+    suspend fun getSuspended(location: String): SearchResult?
+
+    @Query(
+        """
         DELETE FROM search_results
         WHERE latitude = :latitude AND longitude = :longitude AND term = :term
     """

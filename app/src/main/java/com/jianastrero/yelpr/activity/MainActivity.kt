@@ -3,6 +3,7 @@ package com.jianastrero.yelpr.activity
 import android.Manifest
 import android.animation.ValueAnimator
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.transition.TransitionManager
 import android.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +23,10 @@ import com.jianastrero.yelpr.databinding.ActivityMainBinding
 import com.jianastrero.yelpr.dialog.askConfirmation
 import com.jianastrero.yelpr.enumeration.SortBy
 import com.jianastrero.yelpr.extension.dp
+import com.jianastrero.yelpr.extension.hideKeyboard
 import com.jianastrero.yelpr.extension.into
 import com.jianastrero.yelpr.extension.log
+import com.jianastrero.yelpr.extension.showKeyboard
 import com.jianastrero.yelpr.viewmodel.MainViewModel
 import com.jianastrero.yelpr.viewmodel.factory.YelprViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var defaultConstraintSet: ConstraintSet
     private lateinit var detailConstraintSet: ConstraintSet
     private lateinit var currentConstraintSet: ConstraintSet
+    private lateinit var geocoder: Geocoder
 
     private val locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -57,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, YelprViewModelFactory.getInstance())
             .get(MainViewModel::class.java)
+
+        geocoder = Geocoder(this)
 
         binding.viewModel = viewModel
 
@@ -231,6 +238,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.setOnSearchClickedListener {
+            if (binding.etSearch.isVisible) {
+                val address = geocoder
+                    .getFromLocationName(viewModel.searchTerm.get(), 1)
+                    .firstOrNull()
+
+                viewModel.isSearchingLocation = address != null
+
+                viewModel.search()
+                if (viewModel.searchTerm.get().trim().isEmpty()) {
+                    binding.etSearch.isVisible = false
+                }
+                viewModel.isSearching.set(true)
+                hideKeyboard()
+                binding.etSearch.clearFocus()
+            } else {
+                binding.etSearch.apply {
+                    isVisible = true
+                    requestFocus()
+                }
+                showKeyboard()
+            }
+        }
+        binding.etSearch.isVisible = false
+
         if (
             locationPermissions.all {
                 checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED
@@ -315,6 +347,7 @@ class MainActivity : AppCompatActivity() {
             currentConstraintSet = defaultConstraintSet
             defaultConstraintSet.applyTo(binding.constraintLayout)
             binding.viewModel = viewModel
+            binding.etSearch.isVisible = !viewModel.searchTerm.get().trim().isEmpty()
             binding.navHostHolder.scrollable = true
             viewModel.isDetailViewExpanded.postValue(false)
             backdropTopMargin =

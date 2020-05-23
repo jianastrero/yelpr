@@ -48,4 +48,7 @@ class SearchResultRepository private constructor() :
 
     suspend fun getSuspended(latitude: Double, longitude: Double, term: String): SearchResult? =
         dao.getSuspended(latitude, longitude, term)
+
+    suspend fun getSuspended(location: String): SearchResult? =
+        dao.getSuspended(location)
 }
