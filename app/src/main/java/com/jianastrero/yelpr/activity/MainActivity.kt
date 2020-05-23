@@ -93,8 +93,8 @@ class MainActivity : AppCompatActivity() {
             popup.menuInflater.inflate(
                 when (viewModel.sortBy.value) {
                     SortBy.NAME_DESC -> R.menu.sort_name_desc
-                    SortBy.PRICE_ASC -> R.menu.sort_price_asc
-                    SortBy.PRICE_DESC -> R.menu.sort_price_desc
+                    SortBy.RATING_ASC -> R.menu.sort_price_asc
+                    SortBy.RATING_DESC -> R.menu.sort_price_desc
                     SortBy.DISTANCE_ASC -> R.menu.sort_distance_asc
                     SortBy.DISTANCE_DESC -> R.menu.sort_distance_desc
                     else -> R.menu.sort_name_asc

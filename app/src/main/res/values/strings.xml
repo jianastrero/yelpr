@@ -11,6 +11,6 @@
     <string name="there_are_no_deals_available_for_this_business_using_yelp_api">There are no deals available for this business using Yelp API</string>
     <string name="name">Name</string>
     <string name="distance">Distance</string>
-    <string name="price">Price</string>
+    <string name="rating">Rating</string>
     <string name="search">Search</string>
 </resources>

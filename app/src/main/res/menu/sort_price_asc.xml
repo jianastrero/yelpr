@@ -6,9 +6,9 @@
         android:title="@string/name" />
 
     <item
-        android:id="@+id/sortPrice"
+        android:id="@+id/sortRating"
         android:icon="@drawable/ic_arrow_down"
-        android:title="@string/price" />
+        android:title="@string/rating" />
 
     <item
         android:id="@+id/sortDistance"

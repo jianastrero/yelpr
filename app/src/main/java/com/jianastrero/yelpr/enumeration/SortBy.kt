@@ -3,8 +3,8 @@ package com.jianastrero.yelpr.enumeration
 enum class SortBy {
     NAME_ASC,
     NAME_DESC,
-    PRICE_ASC,
-    PRICE_DESC,
+    RATING_ASC,
+    RATING_DESC,
     DISTANCE_ASC,
     DISTANCE_DESC;
 

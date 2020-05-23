@@ -7,8 +7,8 @@
         android:title="@string/name" />
 
     <item
-        android:id="@+id/sortPrice"
-        android:title="@string/price" />
+        android:id="@+id/sortRating"
+        android:title="@string/rating" />
 
     <item
         android:id="@+id/sortDistance"

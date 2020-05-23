@@ -126,7 +126,7 @@ class SearchResultFragment : BaseFragment() {
                 if (sort?.name?.contains("asc", true) == true) {
                     it.sortBy {
                         when (sort) {
-                            SortBy.PRICE_ASC -> it.price
+                            SortBy.RATING_ASC -> it.rating.toString()
                             SortBy.DISTANCE_ASC -> it.distance.toString()
                             else -> it.name
                         }
@@ -134,7 +134,7 @@ class SearchResultFragment : BaseFragment() {
                 } else {
                     it.sortByDescending {
                         when (sort) {
-                            SortBy.PRICE_DESC -> it.price
+                            SortBy.RATING_DESC -> it.rating.toString()
                             SortBy.DISTANCE_DESC -> it.distance.toString()
                             else -> it.name
                         }
