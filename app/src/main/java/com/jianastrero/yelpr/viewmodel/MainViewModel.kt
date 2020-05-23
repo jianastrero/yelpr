@@ -51,6 +51,7 @@ class MainViewModel(
 
         "code: $code".log()
         "result: ${result?.total}".log()
+        "size: ${result?.businesses?.size}".log()
 
         withContext(Dispatchers.Main) {
             searchResultLiveData.postValue(result)

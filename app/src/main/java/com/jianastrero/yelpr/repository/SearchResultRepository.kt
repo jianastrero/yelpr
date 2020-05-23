@@ -46,9 +46,18 @@ class SearchResultRepository private constructor() :
         dao.get(latitude, longitude, term)
             .asLiveData()
 
+    suspend fun getLastSuspended(): SearchResult? =
+        dao.getLastSuspended().apply {
+            this?.businesses = businessRepository.getBusinesses(this?.localId ?: 0)
+        }
+
     suspend fun getSuspended(latitude: Double, longitude: Double, term: String): SearchResult? =
-        dao.getSuspended(latitude, longitude, term)
+        dao.getSuspended(latitude, longitude, term).apply {
+            this?.businesses = businessRepository.getBusinesses(this?.localId ?: 0)
+        }
 
     suspend fun getSuspended(location: String): SearchResult? =
-        dao.getSuspended(location)
+        dao.getSuspended(location).apply {
+            this?.businesses = businessRepository.getBusinesses(this?.localId ?: 0)
+        }
 }

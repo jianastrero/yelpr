@@ -40,6 +40,16 @@ interface SearchResultDao : BaseDao<SearchResult> {
     @Query(
         """
         SELECT * FROM search_results
+        WHERE term = '' OR term is null
+        ORDER BY localId desc
+        LIMIT 1
+    """
+    )
+    suspend fun getLastSuspended(): SearchResult?
+
+    @Query(
+        """
+        SELECT * FROM search_results
         WHERE latitude = :latitude AND longitude = :longitude AND term = :term
         ORDER BY localId asc
         LIMIT 1

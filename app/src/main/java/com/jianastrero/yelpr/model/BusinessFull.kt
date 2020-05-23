@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.lang.Exception
 
 @Entity(
     tableName = "business_fulls",
@@ -40,12 +41,17 @@ data class BusinessFull(
     var url: String
 ) {
 
-    fun categoriesString() = categories.joinToString { it.title }
+    fun categoriesString() = try {
+        categories.joinToString { it.title }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
+    }
 
-    fun schedule(): String {
+    fun schedule(): String = try {
         val hours = this.hours
 
-        return if (hours != null) {
+        if (hours != null) {
             val distinctDays = mutableSetOf<Int>()
             val opens = mutableListOf<Open>()
 
@@ -81,6 +87,9 @@ data class BusinessFull(
         } else {
             "No Schedule Available"
         }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        "No Schedule Available"
     }
 
     fun phoneText(): String {

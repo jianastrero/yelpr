@@ -26,4 +26,13 @@ interface BusinessDao : BaseDao<Business> {
     """
     )
     override fun get(id: Int): Flow<Business?>
+
+    @Query(
+        """
+        SELECT * FROM businesses
+        WHERE searchResultId = :searchResultId
+        ORDER BY id asc
+    """
+    )
+    fun getBusinesses(searchResultId: Int): List<Business>
 }

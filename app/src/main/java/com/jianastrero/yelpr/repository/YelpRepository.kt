@@ -108,6 +108,7 @@ class YelpRepository {
         term: String = ""
     ): SearchResult? =
         searchResultRepository.getSuspended(latitude, longitude, term)
+            ?: searchResultRepository.getLastSuspended()
 
     private suspend fun searchLocally(location: String): SearchResult? =
         searchResultRepository.getSuspended(location)

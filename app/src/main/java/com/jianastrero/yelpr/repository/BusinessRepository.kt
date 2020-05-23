@@ -21,4 +21,7 @@ class BusinessRepository private constructor() :
             return instance
         }
     }
+
+    fun getBusinesses(searchResultId: Int) =
+        dao.getBusinesses(searchResultId)
 }
